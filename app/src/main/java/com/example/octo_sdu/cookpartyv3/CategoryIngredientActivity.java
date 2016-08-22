@@ -13,8 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.octo_sdu.cookpartyv3.back.MainDependencies;
 import com.example.octo_sdu.cookpartyv3.back.pojo.CategoryIngredient;
 import com.example.octo_sdu.cookpartyv3.back.realm.CategoryIngredientRepositoryRealm;
+import com.example.octo_sdu.cookpartyv3.back.realm.MeasuresRepositoryRealmImpl;
 import com.example.octo_sdu.cookpartyv3.categoryIngredient.interactor.CategoryIngredientInteractor;
 import com.example.octo_sdu.cookpartyv3.categoryIngredient.interactor.CategoryIngredientInteractorImpl;
 import com.example.octo_sdu.cookpartyv3.categoryIngredient.presenter.CategoryIngredientPresenterImpl;
@@ -32,6 +34,7 @@ import io.realm.RealmConfiguration;
 public class CategoryIngredientActivity extends AppCompatActivity implements CategoryIngredientViewValidate {
     private static final int SPAN_COUNT_PORTRAIT = 1;
     private static final int SPAN_COUNT_LANDSCAPE = 2;
+
     @BindView(R.id.recycler_category_ingredient)
     RecyclerView recyclerViewCategoryIngredient;
     @BindView(R.id.fab_category_ingredient_add)
@@ -42,6 +45,7 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
     TextView textViewNoCategoryIngredient;
 
     CategoryIngredientAdapter categoryIngredientAdapter;
+    private CategoryIngredientInteractor interactor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +55,7 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
 
         ButterKnife.bind(this);
 
-        final CategoryIngredientInteractor interactor = new CategoryIngredientInteractorImpl(new CategoryIngredientRepositoryRealm(), new CategoryIngredientPresenterImpl(this)); //;
+        interactor = new CategoryIngredientInteractorImpl(new CategoryIngredientRepositoryRealm(), new CategoryIngredientPresenterImpl(this));
 
         categoryIngredientAdapter = new CategoryIngredientAdapter(interactor);
         recyclerViewCategoryIngredient.setLayoutManager(new GridLayoutManager(this, getSpanCount()));
@@ -60,19 +64,20 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
         interactor.allCategoryIngredient();
 
         // Create Dialog for add a new Category
+        final MainDependencies mainDependencies = new MainDependencies(new MeasuresRepositoryRealmImpl());
         final MaterialDialog.Builder materialDialogGallery = new MaterialDialog.Builder(this)
-                .title("Choose your image")
-                .content("Choose a picture about your Ingredient Category:");
+                .title(R.string.choose_picture)
+                .content(R.string.choose_picture_category_ingredient);
 
         final MaterialDialog materialDialog = new MaterialDialog.Builder(this)
-                .title("Add an Ingredient Category")
-                .content("What's the name to your Ingredient Category?")
+                .title(R.string.add_ingredient_category)
+                .content(R.string.question_name_ingredient_category)
                 .inputRangeRes(2, 15, R.color.colorAccent)
                 .inputType(InputType.TYPE_CLASS_TEXT)
-                .input("Ingredient Category Name", null, new MaterialDialog.InputCallback() {
+                .input(getString(R.string.name_ingredient_category), null, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        final CategoryIngredientImageAdapter categoryIngredientImageAdapter = new CategoryIngredientImageAdapter(input.toString(), interactor);
+                        final CategoryIngredientImageAdapter categoryIngredientImageAdapter = new CategoryIngredientImageAdapter(mainDependencies.givePictureCategoryIngredientList(), input.toString(), interactor);
                         final MaterialDialog dialogGallery = materialDialogGallery
                                 .adapter(categoryIngredientImageAdapter, null).build();
                         categoryIngredientImageAdapter.setDialog(dialogGallery);
@@ -111,5 +116,11 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
     public void onEmptyCategory() {
         imageViewNoCategoryIngredient.setVisibility(View.VISIBLE);
         textViewNoCategoryIngredient.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        interactor.allCategoryIngredient();
     }
 }

@@ -7,5 +7,7 @@ import java.util.List;
 public interface IngredientsRepository {
     List<Ingredient> allIngredientsByCategory(String category);
 
-    void add(String name, String nameCategory, String measure);
+    void add(String name, String nameCategory);
+
+    void deleteCategory(String nameCategory);
 }

@@ -21,9 +21,4 @@ public class IngredientsPresenterImpl implements IngredientsPresenter {
     public void onSuccess(List<Ingredient> ingredients) {
         viewValidate.onSuccess(ingredients);
     }
-
-    @Override
-    public void addPossibility(String[] namesMeasures) {
-
-    }
 }

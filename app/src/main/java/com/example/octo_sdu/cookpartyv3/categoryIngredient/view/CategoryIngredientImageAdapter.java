@@ -16,19 +16,16 @@ public class CategoryIngredientImageAdapter extends RecyclerView.Adapter<Categor
     private String name;
     private CategoryIngredientInteractor categoryIngredientInteractor;
     private MaterialDialog dialog;
-    private String[] namesMeasures;
 
-    public CategoryIngredientImageAdapter(String name, CategoryIngredientInteractor categoryIngredientInteractor) {
-        listImageDrawable.add(R.drawable.vegetables);
-        listImageDrawable.add(R.drawable.fruits);
-        listImageDrawable.add(R.drawable.meat);
+    public CategoryIngredientImageAdapter(List<Integer> listImageDrawable, String name, CategoryIngredientInteractor categoryIngredientInteractor) {
+        this.listImageDrawable = listImageDrawable;
         this.name = name;
         this.categoryIngredientInteractor = categoryIngredientInteractor;
     }
 
     @Override
     public CategoryIngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CategoryIngredientViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_category_ingredient, parent, false), categoryIngredientInteractor, dialog, namesMeasures);
+        return new CategoryIngredientViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_category_ingredient, parent, false), categoryIngredientInteractor, dialog);
     }
 
     @Override
@@ -43,13 +40,5 @@ public class CategoryIngredientImageAdapter extends RecyclerView.Adapter<Categor
 
     public void setDialog(MaterialDialog dialog) {
         this.dialog = dialog;
-    }
-
-    public String[] getNamesMeasures() {
-        return namesMeasures;
-    }
-
-    public void setNamesMeasures(String[] namesMeasures) {
-        this.namesMeasures = namesMeasures;
     }
 }

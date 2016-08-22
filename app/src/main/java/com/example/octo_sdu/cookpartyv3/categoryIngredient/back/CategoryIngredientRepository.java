@@ -8,4 +8,6 @@ public interface CategoryIngredientRepository {
     List<CategoryIngredient> allCategoryIngredient();
 
     void saveCategoryIngredient(String name, int draw);
+
+    CategoryIngredient findOneCategory(String name);
 }

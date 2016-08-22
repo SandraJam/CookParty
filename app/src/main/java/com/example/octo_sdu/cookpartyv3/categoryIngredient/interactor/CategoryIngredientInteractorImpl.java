@@ -18,15 +18,15 @@ public class CategoryIngredientInteractorImpl implements CategoryIngredientInter
     @Override
     public void allCategoryIngredient() {
         final List<CategoryIngredient> categoryIngredients = categoryIngredientRepository.allCategoryIngredient();
-        if (categoryIngredients == null || !categoryIngredients.isEmpty())
-            categoryIngredientPresenter.onSuccess(categoryIngredients);
-        else
+        if (categoryIngredients == null || categoryIngredients.isEmpty())
             categoryIngredientPresenter.onEmptyCategory();
+        else
+            categoryIngredientPresenter.onSuccess(categoryIngredients);
     }
 
     @Override
     public void saveCategoryIngredient(String name, int draw) {
-        if (name.length() >= 2)
+        if (name.length() >= 2 && name.length() <= 15 && categoryIngredientRepository.findOneCategory(name) == null)
             categoryIngredientRepository.saveCategoryIngredient(name, draw);
     }
 }

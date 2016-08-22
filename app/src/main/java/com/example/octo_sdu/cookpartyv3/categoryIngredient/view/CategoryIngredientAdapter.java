@@ -2,7 +2,6 @@ package com.example.octo_sdu.cookpartyv3.categoryIngredient.view;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.octo_sdu.cookpartyv3.R;

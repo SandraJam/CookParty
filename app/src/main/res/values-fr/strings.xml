@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Modifier la catégorie</string>
+
+    <string name="tomato">tomate</string>
+
+    <string name="unit">unité</string>
+    <string name="liter">litre(s)</string>
+    <string name="gram">gramme(s)</string>
+    <string name="tablespoon">cuillère(s) à soupe</string>
+    <string name="teaspoon">cuillère(s) à café</string>
+
+    <string name="ingredient_category">Catégorie d\'ingrédient</string>
+    <string name="please_add_category_ingredient">Oooh! Tu n\'as pas de catégorie d\'ingrédient… Essaie d\'en ajouter une grâce au bouton ci-dessous! (Comme Fruits ou Légumes)</string>
+    <string name="category_ingredient_image">Image Catégorie d\'ingrédient</string>
+    <string name="delete_category">Supprimer une catégorie</string>
+    <string name="choose_picture">Choisis ton image</string>
+    <string name="choose_picture_category_ingredient">Choisi une image pour cette catégorie d\'ingrédient:</string>
+    <string name="add_ingredient_category">Ajoute une catégorie d\'ingrédient</string>
+    <string name="question_name_ingredient_category">Quel est le nom de ta catégorie d\'ingrédient?</string>
+    <string name="name_ingredient_category">Nom de la Catégorie d\'ingrédient</string>
+
+    <string name="try_add_ingredient">Oooh! Tu n\'as pas d\'ingrédient dans cette catégorie… Essaie d\'en ajouter une!</string>
+    <string name="add_ingredient_in">Ajoute un ingrédient dans </string>
+    <string name="question_measure_ingredient">Quel est l\'unité de mesure de cet ingrédient? </string>
+    <string name="question_name_ingredient">Quel est le nom de cet ingrédient?</string>
+    <string name="name_ingredient">Nom de l\'ingrédient</string>
+    <string name="are_you_sure">Êtes-vous sûre?</string>
+    <string name="are_your_sure_content">Cette action va supprimer la catégorie ainsi que tous les ingrédients associés. Êtes-vous sûre?</string>
+    <string name="delete">Supprimer</string>
+    <string name="cancel">Annuler</string>
+</resources>

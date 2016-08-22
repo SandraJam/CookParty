@@ -16,6 +16,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CategoryIngredientViewHolder extends RecyclerView.ViewHolder {
+    public static final String IMAGE = "image";
+    public static final String NAME = "name";
     @BindView(R.id.text_category_ingredient)
     TextView textViewCategoryIngredient;
     @BindView(R.id.image_category_ingredient)
@@ -23,14 +25,12 @@ public class CategoryIngredientViewHolder extends RecyclerView.ViewHolder {
 
     private CategoryIngredientInteractor categoryIngredientInteractor;
     private MaterialDialog add;
-    private String[] namesMeasures;
 
-    public CategoryIngredientViewHolder(View itemView, CategoryIngredientInteractor categoryIngredientInteractor, MaterialDialog add, String[] namesMeasures) {
+    public CategoryIngredientViewHolder(View itemView, CategoryIngredientInteractor categoryIngredientInteractor, MaterialDialog add) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.categoryIngredientInteractor = categoryIngredientInteractor;
         this.add = add;
-        this.namesMeasures = namesMeasures;
     }
 
     public void bind(final String name, final int draw) {
@@ -45,9 +45,8 @@ public class CategoryIngredientViewHolder extends RecyclerView.ViewHolder {
                     add.dismiss();
                 } else {
                     Intent intent = new Intent(imageViewCategoryIngredient.getContext(), IngredientsActivity.class);
-                    intent.putExtra("image", draw);
-                    intent.putExtra("name", name);
-                    intent.putExtra("namemeasure", namesMeasures);
+                    intent.putExtra(IMAGE, draw);
+                    intent.putExtra(NAME, name);
                     imageViewCategoryIngredient.getContext().startActivity(intent);
                 }
             }

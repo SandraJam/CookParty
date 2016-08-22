@@ -23,4 +23,9 @@ public class CategoryIngredientRepositoryRealm implements CategoryIngredientRepo
         categoryIngredient.setName(name);
         realm.commitTransaction();
     }
+
+    @Override
+    public CategoryIngredient findOneCategory(String name) {
+        return realm.where(CategoryIngredient.class).equalTo("name", name).findFirst();
+    }
 }

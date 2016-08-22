@@ -10,5 +10,5 @@ public interface MeasuresRepository {
 
     List<Measure> allMeasures();
 
-    boolean checkFirstTime();
+    int checkFirstTime();
 }

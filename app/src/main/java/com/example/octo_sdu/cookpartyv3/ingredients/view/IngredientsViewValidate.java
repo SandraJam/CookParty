@@ -8,6 +8,4 @@ public interface IngredientsViewValidate {
     void onEmpty();
 
     void onSuccess(List<Ingredient> ingredients);
-
-    void addPossibility(String[] namesMeasures);
 }

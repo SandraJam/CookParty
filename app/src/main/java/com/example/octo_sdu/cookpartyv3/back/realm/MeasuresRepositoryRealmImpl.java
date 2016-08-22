@@ -25,7 +25,7 @@ public class MeasuresRepositoryRealmImpl implements MeasuresRepository {
     }
 
     @Override
-    public boolean checkFirstTime() {
-        return realm.where(Measure.class).findAll().size() == 0;
+    public int checkFirstTime() {
+        return realm.where(Measure.class).findAll().size();
     }
 }

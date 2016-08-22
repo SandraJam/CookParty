@@ -8,6 +8,4 @@ public interface IngredientsPresenter {
     void onEmpty();
 
     void onSuccess(List<Ingredient> ingredients);
-
-    void addPossibility(String[] namesMeasures);
 }
