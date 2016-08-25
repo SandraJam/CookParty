@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.example.octo_sdu.cookpartyv3.R;
 import com.example.octo_sdu.cookpartyv3.back.pojo.CategoryIngredient;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.interactor.CategoryIngredientInteractor;
+import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.CategoryIngredientInteractor;
 
 import java.util.ArrayList;
 import java.util.List;

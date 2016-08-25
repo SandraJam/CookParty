@@ -27,7 +27,7 @@ public class IngredientsInteractorImpl implements IngredientsInteractor {
 
     @Override
     public void addIngredient(String name, String nameCategory) {
-        if (name.length() > 2 && name.length() < 15 && nameCategory != null)
+        if (name.length() > 2 && name.length() < 15 && nameCategory != null && ingredientsRepository.findIngredient(name, nameCategory) == null)
             ingredientsRepository.add(name, nameCategory);
     }
 
@@ -35,5 +35,11 @@ public class IngredientsInteractorImpl implements IngredientsInteractor {
     public void deleteCategoryAndAllIngredients(String nameCategory) {
         if (nameCategory!= null && nameCategory.length() > 2 && nameCategory.length() < 15)
             ingredientsRepository.deleteCategory(nameCategory);
+    }
+
+    @Override
+    public void deleteIngredient(String name, String nameCategory) {
+        if (name != null && name.length() > 2 && name.length() < 15)
+            ingredientsRepository.deleteIngredient(name, nameCategory);
     }
 }

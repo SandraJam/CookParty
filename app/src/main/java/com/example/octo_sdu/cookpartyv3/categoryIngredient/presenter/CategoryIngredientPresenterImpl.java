@@ -1,8 +1,9 @@
 package com.example.octo_sdu.cookpartyv3.categoryIngredient.presenter;
 
 import com.example.octo_sdu.cookpartyv3.back.pojo.CategoryIngredient;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.view.CategoryIngredientViewValidate;
+import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.CategoryIngredientPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryIngredientPresenterImpl implements CategoryIngredientPresenter {
@@ -14,11 +15,6 @@ public class CategoryIngredientPresenterImpl implements CategoryIngredientPresen
 
     @Override
     public void onSuccess(List<CategoryIngredient> categoryIngredientList) {
-        categoryIngredientViewValidate.onSuccess(categoryIngredientList);
-    }
-
-    @Override
-    public void onEmptyCategory() {
-        categoryIngredientViewValidate.onEmptyCategory();
+        categoryIngredientViewValidate.onSuccess(new ArrayList<CategoryIngredient>(categoryIngredientList));
     }
 }

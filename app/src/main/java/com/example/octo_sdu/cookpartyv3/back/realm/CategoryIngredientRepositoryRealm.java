@@ -1,22 +1,24 @@
 package com.example.octo_sdu.cookpartyv3.back.realm;
 
 import com.example.octo_sdu.cookpartyv3.back.pojo.CategoryIngredient;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.back.CategoryIngredientRepository;
+import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.CategoryIngredientRepository;
 
 import java.util.List;
 
 import io.realm.Realm;
 
 public class CategoryIngredientRepositoryRealm implements CategoryIngredientRepository {
-    private final Realm realm = Realm.getDefaultInstance();
+
 
     @Override
     public List<CategoryIngredient> allCategoryIngredient() {
-        return realm.where(CategoryIngredient.class).findAll();
+        final Realm realm = Realm.getDefaultInstance();
+        return realm.where(CategoryIngredient.class).findAll().sort("name");
     }
 
     @Override
-    public void saveCategoryIngredient(String name, int draw) {
+    public void addCategoryIngredient(String name, int draw) {
+        final Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         CategoryIngredient categoryIngredient = realm.createObject(CategoryIngredient.class);
         categoryIngredient.setDrawable(draw);
@@ -26,6 +28,7 @@ public class CategoryIngredientRepositoryRealm implements CategoryIngredientRepo
 
     @Override
     public CategoryIngredient findOneCategory(String name) {
+        final Realm realm = Realm.getDefaultInstance();
         return realm.where(CategoryIngredient.class).equalTo("name", name).findFirst();
     }
 }

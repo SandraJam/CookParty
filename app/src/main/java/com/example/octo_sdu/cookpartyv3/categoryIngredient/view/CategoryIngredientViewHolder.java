@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.octo_sdu.cookpartyv3.IngredientsActivity;
 import com.example.octo_sdu.cookpartyv3.R;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.interactor.CategoryIngredientInteractor;
+import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.CategoryIngredientInteractor;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,8 +40,7 @@ public class CategoryIngredientViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View view) {
                 if (add != null) {
-                    categoryIngredientInteractor.saveCategoryIngredient(name, draw);
-                    categoryIngredientInteractor.allCategoryIngredient();
+                    categoryIngredientInteractor.addCategoryIngredient(name, draw);
                     add.dismiss();
                 } else {
                     Intent intent = new Intent(imageViewCategoryIngredient.getContext(), IngredientsActivity.class);

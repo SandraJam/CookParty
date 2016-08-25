@@ -2,11 +2,12 @@
     <string name="app_name">Cook Party</string>
     <string name="action_settings">Update Category</string>
 
-    <string name="tomato">tomato</string>
 
     <string name="unit">unit</string>
-    <string name="liter">liter</string>
-    <string name="gram">gram</string>
+    <string name="liter">L</string>
+    <string name="gram">g</string>
+    <string name="milliliter">mL</string>
+    <string name="kilogram">kg</string>
     <string name="tablespoon">tablespoon</string>
     <string name="teaspoon">teaspoon</string>
 
@@ -20,7 +21,9 @@
     <string name="question_name_ingredient_category">What\'s the name to your Ingredient Category?</string>
     <string name="name_ingredient_category">Ingredient Category Name</string>
 
+    <string name="title_activity_category_recipe">CategoryRecipeActivity</string>
     <string name="title_activity_ingredients">IngredientsActivity</string>
+
     <string name="try_add_ingredient">Oooh! You don\'t have ingredient in this category… Try to add one!</string>
     <string name="add_ingredient_in">Add an Ingredient in </string>
     <string name="question_measure_ingredient">What\'s the measure unit of this ingredient?</string>
@@ -30,4 +33,65 @@
     <string name="are_your_sure_content">This action delete your category and all ingredients in this category. Do you want delete?</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+
+    <string name="choose_picture_category_recipe">Choose a picture about your Recipe Category:</string>
+    <string name="add_recipe_category">Add an Recipe Category</string>
+    <string name="question_name_recipe_category">What\'s the name to your Recipe Category?</string>
+    <string name="name_recipe_category">Ingredient Recipe Name</string>
+    <string name="are_your_sure_content_recipe">This action delete your category and all recipes in this category. Do you want delete?</string>
+    <string name="try_add_recipe">Oooh! You don\'t have recipe in this category… Try to add one!</string>
+
+    <string name="fruit">Fruit</string>
+    <string name="vegetable">Vegetable</string>
+    <string name="meat">Meat</string>
+    <string name="spice">Spice</string>
+    <string name="aromatic">Aromatic</string>
+    <string name="drink">Drink</string>
+    <string name="grocery">Grocery</string>
+    <string name="starwberry">Strawberry</string>
+    <string name="banana">Banana</string>
+    <string name="cherry">Cherry</string>
+    <string name="apple">Apple</string>
+    <string name="apricot">Apricot</string>
+    <string name="leek">Leek</string>
+    <string name="bean">Bean</string>
+    <string name="potato">Potato</string>
+    <string name="salad">Salad</string>
+    <string name="tomato">Tomato</string>
+    <string name="ground_beef">Ground Beef</string>
+    <string name="pork_chop">Pork Chop</string>
+    <string name="chicken_thigh">Chicken Thigh</string>
+    <string name="beef_steak">Beef Steak</string>
+    <string name="roast_pork">Roast Pork</string>
+    <string name="curry">Curry</string>
+    <string name="paprika">Paprika</string>
+    <string name="cumin">Cumin</string>
+    <string name="chili_pepper">Chili Pepper</string>
+    <string name="mustard">Mustard</string>
+    <string name="basil">Basil</string>
+    <string name="laurel">Laurel</string>
+    <string name="tarragon">Tarragon</string>
+    <string name="chive">Chive</string>
+    <string name="onion">Onion</string>
+    <string name="water">Water</string>
+    <string name="white_wine">White Wine</string>
+    <string name="red_wine">Red Wine</string>
+    <string name="milk">Milk</string>
+    <string name="rum">Rum</string>
+    <string name="flour">Flour</string>
+    <string name="white_sugar">White Sugar</string>
+    <string name="egg">Egg</string>
+    <string name="salt">Salt</string>
+    <string name="pasta">Pasta</string>
+    <string name="meal">Meal</string>
+    <string name="gratin">Gratin</string>
+    <string name="quiche_and_pizza">Quiche and pizza</string>
+    <string name="pastry">Pastry</string>
+    <string name="sauce">Sauce</string>
+
+    <string name="title_activity_recipes">RecipesActivity</string>
+    <string name="delete_recipe_category">Delete Recipe Category</string>
+    <string name="picture_category_recipe">Picture Category Recipe</string>
+    <string name="image_button">Image Button</string>
+
 </resources>

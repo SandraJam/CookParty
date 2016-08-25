@@ -10,4 +10,8 @@ public interface IngredientsRepository {
     void add(String name, String nameCategory);
 
     void deleteCategory(String nameCategory);
+
+    Ingredient findIngredient(String name, String nameCategory);
+
+    void deleteIngredient(String name, String nameCategory);
 }

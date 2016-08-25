@@ -14,27 +14,4 @@
         android:layout_height="match_parent"
         android:id="@+id/recycler_category_ingredient"/>
 
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/image_no_category_ingredient"
-        android:src="@drawable/tomato"
-        android:contentDescription="@string/tomato"
-        android:layout_above="@+id/text_no_category_ingredient"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/please_add_category_ingredient"
-        android:textAlignment="center"
-        android:textColor="@color/colorWriteMessage"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/text_no_category_ingredient"
-        android:visibility="gone"/>
-
 </RelativeLayout>

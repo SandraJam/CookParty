@@ -23,6 +23,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CategoryRecipeActivity"
+            android:label="@string/title_activity_category_recipe"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RecipesActivity"
+            android:label="@string/title_activity_recipes"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

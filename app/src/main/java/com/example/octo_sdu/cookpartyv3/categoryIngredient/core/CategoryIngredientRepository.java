@@ -1,4 +1,4 @@
-package com.example.octo_sdu.cookpartyv3.categoryIngredient.back;
+package com.example.octo_sdu.cookpartyv3.categoryIngredient.core;
 
 import com.example.octo_sdu.cookpartyv3.back.pojo.CategoryIngredient;
 
@@ -7,7 +7,7 @@ import java.util.List;
 public interface CategoryIngredientRepository {
     List<CategoryIngredient> allCategoryIngredient();
 
-    void saveCategoryIngredient(String name, int draw);
+    void addCategoryIngredient(String name, int draw);
 
     CategoryIngredient findOneCategory(String name);
 }

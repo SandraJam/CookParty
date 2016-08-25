@@ -6,4 +6,6 @@ public interface IngredientsInteractor {
     void addIngredient(String name, String nameCategory);
 
     void deleteCategoryAndAllIngredients(String nameCategory);
+
+    void deleteIngredient(String name, String nameCategory);
 }

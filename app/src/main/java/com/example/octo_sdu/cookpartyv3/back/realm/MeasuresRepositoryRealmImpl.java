@@ -11,11 +11,10 @@ public class MeasuresRepositoryRealmImpl implements MeasuresRepository {
     private final Realm realm = Realm.getDefaultInstance();
 
     @Override
-    public void add(String name, boolean extensible) {
+    public void add(String name) {
         realm.beginTransaction();
         Measure measure = realm.createObject(Measure.class);
         measure.setName(name);
-        measure.setExtensible(extensible);
         realm.commitTransaction();
     }
 

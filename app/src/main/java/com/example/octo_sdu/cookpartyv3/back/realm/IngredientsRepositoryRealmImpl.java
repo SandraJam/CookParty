@@ -14,7 +14,7 @@ public class IngredientsRepositoryRealmImpl implements IngredientsRepository {
 
     @Override
     public List<Ingredient> allIngredientsByCategory(String category) {
-        return realm.where(Ingredient.class).equalTo("category.name", category).findAll();
+        return realm.where(Ingredient.class).equalTo("category.name", category).findAll().sort("name");
     }
 
     @Override
@@ -44,6 +44,22 @@ public class IngredientsRepositoryRealmImpl implements IngredientsRepository {
             @Override
             public void execute(Realm realm) {
                 categoryIngredients.deleteFirstFromRealm();
+            }
+        });
+    }
+
+    @Override
+    public Ingredient findIngredient(String name, String nameCategory) {
+        return realm.where(Ingredient.class).equalTo("name", name).findAll().where().equalTo("category.name", nameCategory).findFirst();
+    }
+
+    @Override
+    public void deleteIngredient(String name, String nameCategory) {
+        final RealmResults<Ingredient> ingredients = realm.where(Ingredient.class).equalTo("name", name).findAll().where().equalTo("category.name", nameCategory).findAll();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                ingredients.deleteFirstFromRealm();
             }
         });
     }

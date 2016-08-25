@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface MeasuresRepository {
 
-    void add(String name, boolean extensible);
+    void add(String name);
 
     List<Measure> allMeasures();
 

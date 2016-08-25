@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 
 public class IngredientsInteractorImplTest {
     IngredientsPresenter ingredientsPresenter;
@@ -66,6 +67,13 @@ public class IngredientsInteractorImplTest {
     }
 
     @Test
+    public void testAddIngredientWhenAlreadyExist() {
+        Mockito.when(ingredientsRepository.findIngredient("aaa", "bbb")).thenReturn(new Ingredient());
+        interactor.addIngredient("aaa", "bbb");
+        Mockito.verify(ingredientsRepository, never()).add("aaa", "bbb");
+    }
+
+    @Test
     public void testAddIngredientWhenOk() {
         interactor.addIngredient("abracadabra", "category");
         Mockito.verify(ingredientsRepository).add("abracadabra", "category");
@@ -93,5 +101,29 @@ public class IngredientsInteractorImplTest {
     public void testDeleteCategoryAndAllIngredientsWhenNameOk() {
         interactor.deleteCategoryAndAllIngredients("abracadabra");
         Mockito.verify(ingredientsRepository).deleteCategory("abracadabra");
+    }
+
+    @Test
+    public void testDeleteWhenNameIsNull() {
+        interactor.deleteIngredient(null, "aa");
+        Mockito.verifyZeroInteractions(ingredientsRepository);
+    }
+
+    @Test
+    public void testDeleteWhenNameIsTooShort() {
+        interactor.deleteIngredient("aa", "aa");
+        Mockito.verifyZeroInteractions(ingredientsRepository);
+    }
+
+    @Test
+    public void testDeleteWhenNameIsTooLong() {
+        interactor.deleteIngredient("anagrammatically", "aa");
+        Mockito.verifyZeroInteractions(ingredientsRepository);
+    }
+
+    @Test
+    public void testDeleteWhenNameIsOk() {
+        interactor.deleteIngredient("abracadabra", "aa");
+        Mockito.verify(ingredientsRepository).deleteIngredient("abracadabra", "aa");
     }
 }

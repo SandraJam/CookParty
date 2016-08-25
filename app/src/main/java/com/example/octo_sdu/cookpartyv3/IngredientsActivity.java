@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -48,12 +49,10 @@ public class IngredientsActivity extends AppCompatActivity implements Ingredient
     ImageView imageViewCategory;
     @BindView(R.id.text_category_in_ingredients)
     TextView textViewCategory;
+    @BindView(R.id.viewFlipper_ingredients)
+    ViewFlipper viewFlipperIngredients;
     @BindView(R.id.recycler_ingredient)
     RecyclerView recyclerView;
-    @BindView(R.id.text_no_ingredient)
-    TextView textViewNoIngredient;
-    @BindView(R.id.image_no_ingredient)
-    ImageView imageViewNoIngredient;
     @BindView(R.id.fab_add_ingredient)
     FloatingActionButton fabAddIngredient;
     @BindView(R.id.toolbar_ingredients)
@@ -86,7 +85,7 @@ public class IngredientsActivity extends AppCompatActivity implements Ingredient
 
         ingredientsInteractor = new IngredientsInteractorImpl(new IngredientsPresenterImpl(this), new IngredientsRepositoryRealmImpl());
 
-        ingredientsAdapter = new IngredientsAdapter();
+        ingredientsAdapter = new IngredientsAdapter(ingredientsInteractor, nameCategory);
         recyclerView.setLayoutManager(new GridLayoutManager(this, getSpanCount()));
         recyclerView.setAdapter(ingredientsAdapter);
 
@@ -104,8 +103,6 @@ public class IngredientsActivity extends AppCompatActivity implements Ingredient
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
             case R.id.action_delete:
                 new MaterialDialog.Builder(this)
                         .title(R.string.are_you_sure)
@@ -140,14 +137,12 @@ public class IngredientsActivity extends AppCompatActivity implements Ingredient
 
     @Override
     public void onEmpty() {
-        imageViewNoIngredient.setVisibility(View.VISIBLE);
-        textViewNoIngredient.setVisibility(View.VISIBLE);
+        viewFlipperIngredients.setDisplayedChild(1);
     }
 
     @Override
     public void onSuccess(List<Ingredient> ingredients) {
-        imageViewNoIngredient.setVisibility(View.GONE);
-        textViewNoIngredient.setVisibility(View.GONE);
+        viewFlipperIngredients.setDisplayedChild(0);
         ingredientsAdapter.setIngredientList(ingredients);
         recyclerView.setAdapter(ingredientsAdapter);
     }

@@ -9,27 +9,22 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.octo_sdu.cookpartyv3.back.MainDependencies;
 import com.example.octo_sdu.cookpartyv3.back.pojo.CategoryIngredient;
 import com.example.octo_sdu.cookpartyv3.back.realm.CategoryIngredientRepositoryRealm;
-import com.example.octo_sdu.cookpartyv3.back.realm.MeasuresRepositoryRealmImpl;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.interactor.CategoryIngredientInteractor;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.interactor.CategoryIngredientInteractorImpl;
+import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.CategoryIngredientInteractor;
+import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.CategoryIngredientInteractorImpl;
 import com.example.octo_sdu.cookpartyv3.categoryIngredient.presenter.CategoryIngredientPresenterImpl;
 import com.example.octo_sdu.cookpartyv3.categoryIngredient.view.CategoryIngredientAdapter;
 import com.example.octo_sdu.cookpartyv3.categoryIngredient.view.CategoryIngredientImageAdapter;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.view.CategoryIngredientViewValidate;
+import com.example.octo_sdu.cookpartyv3.categoryIngredient.presenter.CategoryIngredientViewValidate;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 public class CategoryIngredientActivity extends AppCompatActivity implements CategoryIngredientViewValidate {
     private static final int SPAN_COUNT_PORTRAIT = 1;
@@ -39,23 +34,45 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
     RecyclerView recyclerViewCategoryIngredient;
     @BindView(R.id.fab_category_ingredient_add)
     FloatingActionButton fabCategoryIngredient;
-    @BindView(R.id.image_no_category_ingredient)
-    ImageView imageViewNoCategoryIngredient;
-    @BindView(R.id.text_no_category_ingredient)
-    TextView textViewNoCategoryIngredient;
 
     CategoryIngredientAdapter categoryIngredientAdapter;
-    private CategoryIngredientInteractor interactor;
+    private CategoryIngredientInteractor interactorDecorated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_ingredient);
-        Realm.setDefaultConfiguration(new RealmConfiguration.Builder(this).build());
 
         ButterKnife.bind(this);
 
-        interactor = new CategoryIngredientInteractorImpl(new CategoryIngredientRepositoryRealm(), new CategoryIngredientPresenterImpl(this));
+        final CategoryIngredientInteractor interactor = new CategoryIngredientInteractorImpl(new CategoryIngredientRepositoryRealm(), new CategoryIngredientPresenterImpl(new CategoryIngredientViewValidate() {
+            @Override
+            public void onSuccess(final List<CategoryIngredient> categoryIngredientList) {
+                MainDependencies.mainExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        CategoryIngredientActivity.this.onSuccess(categoryIngredientList);
+                    }
+                });
+            }
+        }));
+
+        interactorDecorated = new CategoryIngredientInteractor() {
+            @Override
+            public void allCategoryIngredient() {
+                MainDependencies.executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        interactor.allCategoryIngredient();
+                    }
+                });
+            }
+
+            @Override
+            public void addCategoryIngredient(String name, int draw) {
+                interactor.addCategoryIngredient(name, draw);
+            }
+        };
 
         categoryIngredientAdapter = new CategoryIngredientAdapter(interactor);
         recyclerViewCategoryIngredient.setLayoutManager(new GridLayoutManager(this, getSpanCount()));
@@ -63,13 +80,23 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
 
         interactor.allCategoryIngredient();
 
-        // Create Dialog for add a new Category
-        final MainDependencies mainDependencies = new MainDependencies(new MeasuresRepositoryRealmImpl());
+        fabCategoryIngredient.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        createDialogForCategory().show();
+                    }
+                }
+        );
+    }
+
+    private MaterialDialog createDialogForCategory() {
+        final MainDependencies mainDependencies = new MainDependencies();
         final MaterialDialog.Builder materialDialogGallery = new MaterialDialog.Builder(this)
                 .title(R.string.choose_picture)
                 .content(R.string.choose_picture_category_ingredient);
 
-        final MaterialDialog materialDialog = new MaterialDialog.Builder(this)
+        return new MaterialDialog.Builder(this)
                 .title(R.string.add_ingredient_category)
                 .content(R.string.question_name_ingredient_category)
                 .inputRangeRes(2, 15, R.color.colorAccent)
@@ -77,7 +104,7 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
                 .input(getString(R.string.name_ingredient_category), null, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        final CategoryIngredientImageAdapter categoryIngredientImageAdapter = new CategoryIngredientImageAdapter(mainDependencies.givePictureCategoryIngredientList(), input.toString(), interactor);
+                        final CategoryIngredientImageAdapter categoryIngredientImageAdapter = new CategoryIngredientImageAdapter(mainDependencies.givePictureCategoryList(), input.toString(), interactorDecorated);
                         final MaterialDialog dialogGallery = materialDialogGallery
                                 .adapter(categoryIngredientImageAdapter, null).build();
                         categoryIngredientImageAdapter.setDialog(dialogGallery);
@@ -85,15 +112,6 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
                     }
                 })
                 .build();
-
-        fabCategoryIngredient.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        materialDialog.show();
-                    }
-                }
-        );
     }
 
     private int getSpanCount() {
@@ -106,21 +124,13 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
 
     @Override
     public void onSuccess(List<CategoryIngredient> categoryIngredientList) {
-        imageViewNoCategoryIngredient.setVisibility(View.GONE);
-        textViewNoCategoryIngredient.setVisibility(View.GONE);
         categoryIngredientAdapter.setCategoryIngredients(categoryIngredientList);
         recyclerViewCategoryIngredient.setAdapter(categoryIngredientAdapter);
     }
 
     @Override
-    public void onEmptyCategory() {
-        imageViewNoCategoryIngredient.setVisibility(View.VISIBLE);
-        textViewNoCategoryIngredient.setVisibility(View.VISIBLE);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        interactor.allCategoryIngredient();
+        interactorDecorated.allCategoryIngredient();
     }
 }

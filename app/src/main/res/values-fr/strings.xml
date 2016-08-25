@@ -2,11 +2,8 @@
 <resources>
     <string name="action_settings">Modifier la catégorie</string>
 
-    <string name="tomato">tomate</string>
 
     <string name="unit">unité</string>
-    <string name="liter">litre(s)</string>
-    <string name="gram">gramme(s)</string>
     <string name="tablespoon">cuillère(s) à soupe</string>
     <string name="teaspoon">cuillère(s) à café</string>
 
@@ -20,6 +17,13 @@
     <string name="question_name_ingredient_category">Quel est le nom de ta catégorie d\'ingrédient?</string>
     <string name="name_ingredient_category">Nom de la Catégorie d\'ingrédient</string>
 
+    <string name="choose_picture_category_recipe">Choisi une image pour cette catégorie de recette:</string>
+    <string name="add_recipe_category">Ajoute une catégorie de recette</string>
+    <string name="question_name_recipe_category">Quel est le nom de ta catégorie de recette?</string>
+    <string name="name_recipe_category">Nom de la Catégorie de recette</string>
+    <string name="are_your_sure_content_recipe">Cette action va supprimer la catégorie ainsi que tous les recettes associées. Êtes-vous sûre?</string>
+    <string name="try_add_recipe">Oooh! Tu n\'as pas de recette dans cette catégorie… Essaie d\'en ajouter une!</string>
+
     <string name="try_add_ingredient">Oooh! Tu n\'as pas d\'ingrédient dans cette catégorie… Essaie d\'en ajouter une!</string>
     <string name="add_ingredient_in">Ajoute un ingrédient dans </string>
     <string name="question_measure_ingredient">Quel est l\'unité de mesure de cet ingrédient? </string>
@@ -29,4 +33,52 @@
     <string name="are_your_sure_content">Cette action va supprimer la catégorie ainsi que tous les ingrédients associés. Êtes-vous sûre?</string>
     <string name="delete">Supprimer</string>
     <string name="cancel">Annuler</string>
+
+    <string name="fruit">Fruit</string>
+    <string name="vegetable">Légume</string>
+    <string name="meat">Viande</string>
+    <string name="spice">Epice</string>
+    <string name="aromatic">Herbe Aromatique</string>
+    <string name="drink">Boisson</string>
+    <string name="grocery">Epicerie</string>
+    <string name="starwberry">Fraise</string>
+    <string name="banana">Banane</string>
+    <string name="cherry">Cerise</string>
+    <string name="apple">Pomme</string>
+    <string name="apricot">Abricot</string>
+    <string name="leek">Poireau</string>
+    <string name="bean">Haricot</string>
+    <string name="potato">Pomme de terre</string>
+    <string name="salad">Salade</string>
+    <string name="tomato">Tomate</string>
+    <string name="ground_beef">Boeuf Haché</string>
+    <string name="pork_chop">Côte de Porc</string>
+    <string name="chicken_thigh">Cuisse de Poulet</string>
+    <string name="beef_steak">Steak de boeuf</string>
+    <string name="roast_pork">Roti de porc</string>
+    <string name="curry">Curry</string>
+    <string name="paprika">Paprika</string>
+    <string name="cumin">Cumin</string>
+    <string name="chili_pepper">Piment</string>
+    <string name="mustard">Moutarde</string>
+    <string name="basil">Basilic</string>
+    <string name="laurel">Laurier</string>
+    <string name="tarragon">Estragon</string>
+    <string name="chive">Ciboulette</string>
+    <string name="onion">Oignon</string>
+    <string name="water">Eau</string>
+    <string name="white_wine">Vin Blanc</string>
+    <string name="red_wine">Vin Rouge</string>
+    <string name="milk">Lait</string>
+    <string name="rum">Rhum</string>
+    <string name="flour">Farine</string>
+    <string name="white_sugar">Sucre Blanc</string>
+    <string name="egg">Oeuf</string>
+    <string name="salt">Sel</string>
+    <string name="pasta">Pâte</string>
+    <string name="meal">Plat</string>
+    <string name="gratin">Gratin</string>
+    <string name="quiche_and_pizza">Quiche et pizza</string>
+    <string name="pastry">Pâtisserie</string>
+    <string name="sauce">Sauce</string>
 </resources>
