@@ -1,8 +1,8 @@
 package com.example.octo_sdu.cookpartyv3.recipes.presenter;
 
-import com.example.octo_sdu.cookpartyv3.back.pojo.IngredientInRecipe;
-import com.example.octo_sdu.cookpartyv3.back.pojo.Recipe;
-import com.example.octo_sdu.cookpartyv3.back.pojo.StepInRecipe;
+import com.example.octo_sdu.cookpartyv3.back.realm.pojo.IngredientInRecipeRealm;
+import com.example.octo_sdu.cookpartyv3.back.realm.pojo.RecipeRealm;
+import com.example.octo_sdu.cookpartyv3.back.realm.pojo.StepInRecipeRealm;
 import com.example.octo_sdu.cookpartyv3.recipes.view.RecipeModel;
 import com.example.octo_sdu.cookpartyv3.recipes.view.RecipesViewValidate;
 
@@ -17,18 +17,18 @@ public class RecipesPresenterImpl implements RecipesPresenter {
     }
 
     @Override
-    public void onSuccess(List<Recipe> recipes) {
+    public void onSuccess(List<RecipeRealm> recipeRealms) {
         final List<RecipeModel> recipeModels = new ArrayList<>();
-        for (Recipe recipe : recipes) {
+        for (RecipeRealm recipeRealm : recipeRealms) {
             final List<String> ingredients = new ArrayList<>();
-            for (IngredientInRecipe ingredient : recipe.getIngredients()) {
-                ingredients.add(ingredient.getValue()+" "+ingredient.getMeasure().getName()+" "+ingredient.getIngredient().getName());
+            for (IngredientInRecipeRealm ingredient : recipeRealm.getIngredients()) {
+                ingredients.add(ingredient.getValue()+" "+ingredient.getMeasureRealm().getName()+" "+ingredient.getIngredientRealm().getName());
             }
             final List<String> steps = new ArrayList<>();
-            for (StepInRecipe step : recipe.getSteps()) {
+            for (StepInRecipeRealm step : recipeRealm.getSteps()) {
                 steps.add(step.getContent());
             }
-            recipeModels.add(new RecipeModel(recipe.getTitle(), ingredients, steps));
+            recipeModels.add(new RecipeModel(recipeRealm.getTitle(), ingredients, steps));
         }
         recipesViewValidate.onSuccess(recipeModels);
     }

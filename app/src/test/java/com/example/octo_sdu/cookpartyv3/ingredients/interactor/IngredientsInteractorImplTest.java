@@ -1,6 +1,6 @@
 package com.example.octo_sdu.cookpartyv3.ingredients.interactor;
 
-import com.example.octo_sdu.cookpartyv3.back.pojo.Ingredient;
+import com.example.octo_sdu.cookpartyv3.back.realm.pojo.IngredientRealm;
 import com.example.octo_sdu.cookpartyv3.ingredients.back.IngredientsRepository;
 import com.example.octo_sdu.cookpartyv3.ingredients.presenter.IngredientsPresenter;
 
@@ -34,18 +34,18 @@ public class IngredientsInteractorImplTest {
 
     @Test
     public void testAllIngredientsByCategoryWithEmptyIngredientsList() {
-        Mockito.when(ingredientsRepository.allIngredientsByCategory(Mockito.anyString())).thenReturn(new ArrayList<Ingredient>());
+        Mockito.when(ingredientsRepository.allIngredientsByCategory(Mockito.anyString())).thenReturn(new ArrayList<IngredientRealm>());
         interactor.allIngredientsByCategory("");
         Mockito.verify(ingredientsPresenter).onEmpty();
     }
 
     @Test
     public void testAllIngredientsByCategoryWithCoolIngredientsList() {
-        final ArrayList<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(new Ingredient());
-        Mockito.when(ingredientsRepository.allIngredientsByCategory(Mockito.anyString())).thenReturn(ingredients);
+        final ArrayList<IngredientRealm> ingredientRealms = new ArrayList<>();
+        ingredientRealms.add(new IngredientRealm());
+        Mockito.when(ingredientsRepository.allIngredientsByCategory(Mockito.anyString())).thenReturn(ingredientRealms);
         interactor.allIngredientsByCategory("");
-        Mockito.verify(ingredientsPresenter).onSuccess(ingredients);
+        Mockito.verify(ingredientsPresenter).onSuccess(ingredientRealms);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class IngredientsInteractorImplTest {
 
     @Test
     public void testAddIngredientWhenAlreadyExist() {
-        Mockito.when(ingredientsRepository.findIngredient("aaa", "bbb")).thenReturn(new Ingredient());
+        Mockito.when(ingredientsRepository.findIngredient("aaa", "bbb")).thenReturn(new IngredientRealm());
         interactor.addIngredient("aaa", "bbb");
         Mockito.verify(ingredientsRepository, never()).add("aaa", "bbb");
     }

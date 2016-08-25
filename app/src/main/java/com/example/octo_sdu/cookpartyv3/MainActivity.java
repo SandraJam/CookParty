@@ -34,11 +34,17 @@ public class MainActivity extends AppCompatActivity {
                         .deleteRealmIfMigrationNeeded()
                         .build());
 
+
         MainDependencies.executor.execute(new Runnable() {
             @Override
             public void run() {
+                final MainDependencies mainDependencies = MainDependencies.getInstance();
 
-                final MainDependencies mainDependencies = new MainDependencies(new MeasuresRepositoryRealmImpl(), new CategoryIngredientRepositoryRealm(), new IngredientsRepositoryRealmImpl(), new CategoryRecipeRepositoryRealmImpl());
+                // Realm
+                mainDependencies.setCategoryIngredientRepository(new CategoryIngredientRepositoryRealm());
+                mainDependencies.setCategoryRecipeRepository(new CategoryRecipeRepositoryRealmImpl());
+                mainDependencies.setIngredientsRepository(new IngredientsRepositoryRealmImpl());
+                mainDependencies.setMeasuresRepository(new MeasuresRepositoryRealmImpl());
 
                 mainDependencies.checkFirstTime(MainActivity.this.getApplicationContext());
             }

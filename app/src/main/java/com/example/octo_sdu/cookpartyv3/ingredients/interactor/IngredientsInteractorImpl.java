@@ -1,6 +1,6 @@
 package com.example.octo_sdu.cookpartyv3.ingredients.interactor;
 
-import com.example.octo_sdu.cookpartyv3.back.pojo.Ingredient;
+import com.example.octo_sdu.cookpartyv3.back.realm.pojo.IngredientRealm;
 import com.example.octo_sdu.cookpartyv3.ingredients.back.IngredientsRepository;
 import com.example.octo_sdu.cookpartyv3.ingredients.presenter.IngredientsPresenter;
 
@@ -17,11 +17,11 @@ public class IngredientsInteractorImpl implements IngredientsInteractor {
 
     @Override
     public void allIngredientsByCategory(String category) {
-        final List<Ingredient> ingredients = ingredientsRepository.allIngredientsByCategory(category);
-        if (ingredients == null || ingredients.isEmpty()) {
+        final List<IngredientRealm> ingredientRealms = ingredientsRepository.allIngredientsByCategory(category);
+        if (ingredientRealms == null || ingredientRealms.isEmpty()) {
             ingredientsPresenter.onEmpty();
         } else{
-            ingredientsPresenter.onSuccess(ingredients);
+            ingredientsPresenter.onSuccess(ingredientRealms);
         }
     }
 

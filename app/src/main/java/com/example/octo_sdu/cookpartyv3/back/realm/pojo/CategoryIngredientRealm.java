@@ -1,8 +1,8 @@
-package com.example.octo_sdu.cookpartyv3.back.pojo;
+package com.example.octo_sdu.cookpartyv3.back.realm.pojo;
 
 import io.realm.RealmObject;
 
-public class CategoryIngredient extends RealmObject{
+public class CategoryIngredientRealm extends RealmObject{
     private String name;
     private int drawable;
 

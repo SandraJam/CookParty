@@ -1,6 +1,6 @@
 package com.example.octo_sdu.cookpartyv3.categoryRecipe.interactor;
 
-import com.example.octo_sdu.cookpartyv3.back.pojo.CategoryRecipe;
+import com.example.octo_sdu.cookpartyv3.back.realm.pojo.CategoryRecipeRealm;
 import com.example.octo_sdu.cookpartyv3.categoryRecipe.back.CategoryRecipeRepository;
 import com.example.octo_sdu.cookpartyv3.categoryRecipe.presenter.CategoryRecipePresenter;
 
@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 
-public class CategoryRecipeInteractorImplTest {
+public class CategoryRecipeRealmInteractorImplTest {
     CategoryRecipeInteractor categoryRecipeInteractor;
     CategoryRecipeRepository categoryRecipeRepository;
     CategoryRecipePresenter categoryRecipePresenter;
@@ -49,7 +49,7 @@ public class CategoryRecipeInteractorImplTest {
 
     @Test
     public void testAddCategoryRecipeWhenNameAlreadyExist() {
-        Mockito.when(categoryRecipeRepository.findCategoryRecipe("abracadabra")).thenReturn(new CategoryRecipe());
+        Mockito.when(categoryRecipeRepository.findCategoryRecipe("abracadabra")).thenReturn(new CategoryRecipeRealm());
         categoryRecipeInteractor.addCategoryRecipe("abracadabra", 0);
         Mockito.verify(categoryRecipeRepository, never()).addCategoryRecipe("abracadabra", 0);
     }

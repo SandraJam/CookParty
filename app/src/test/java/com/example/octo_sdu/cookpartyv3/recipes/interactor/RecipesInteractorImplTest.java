@@ -1,6 +1,6 @@
 package com.example.octo_sdu.cookpartyv3.recipes.interactor;
 
-import com.example.octo_sdu.cookpartyv3.back.pojo.Recipe;
+import com.example.octo_sdu.cookpartyv3.back.realm.pojo.RecipeRealm;
 import com.example.octo_sdu.cookpartyv3.recipes.back.RecipesRepository;
 import com.example.octo_sdu.cookpartyv3.recipes.presenter.RecipesPresenter;
 
@@ -45,18 +45,18 @@ public class RecipesInteractorImplTest {
 
     @Test
     public void testAllRecipesByCategoryWhenListEmpty() {
-        final List<Recipe> recipes = new ArrayList<>();
-        Mockito.when(recipesRepository.allRecipesByCategory(Mockito.anyString())).thenReturn(recipes);
+        final List<RecipeRealm> recipeRealms = new ArrayList<>();
+        Mockito.when(recipesRepository.allRecipesByCategory(Mockito.anyString())).thenReturn(recipeRealms);
         recipesInteractor.allRecipesByCategory("");
         Mockito.verify(recipesPresenter).onEmpty();
     }
 
     @Test
     public void testAllRecipesByCategoryWhenOk() {
-        final List<Recipe> recipes = new ArrayList<>();
-        recipes.add(new Recipe());
-        Mockito.when(recipesRepository.allRecipesByCategory(Mockito.anyString())).thenReturn(recipes);
+        final List<RecipeRealm> recipeRealms = new ArrayList<>();
+        recipeRealms.add(new RecipeRealm());
+        Mockito.when(recipesRepository.allRecipesByCategory(Mockito.anyString())).thenReturn(recipeRealms);
         recipesInteractor.allRecipesByCategory("");
-        Mockito.verify(recipesPresenter).onSuccess(recipes);
+        Mockito.verify(recipesPresenter).onSuccess(recipeRealms);
     }
 }

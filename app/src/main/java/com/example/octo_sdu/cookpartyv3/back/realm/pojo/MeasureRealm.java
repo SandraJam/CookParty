@@ -1,8 +1,8 @@
-package com.example.octo_sdu.cookpartyv3.back.pojo;
+package com.example.octo_sdu.cookpartyv3.back.realm.pojo;
 
 import io.realm.RealmObject;
 
-public class Measure extends RealmObject {
+public class MeasureRealm extends RealmObject {
     private String name;
 
     public String getName() {

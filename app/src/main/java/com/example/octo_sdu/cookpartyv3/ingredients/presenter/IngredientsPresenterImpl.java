@@ -1,6 +1,6 @@
 package com.example.octo_sdu.cookpartyv3.ingredients.presenter;
 
-import com.example.octo_sdu.cookpartyv3.back.pojo.Ingredient;
+import com.example.octo_sdu.cookpartyv3.back.realm.pojo.IngredientRealm;
 import com.example.octo_sdu.cookpartyv3.ingredients.view.IngredientsViewValidate;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class IngredientsPresenterImpl implements IngredientsPresenter {
     }
 
     @Override
-    public void onSuccess(List<Ingredient> ingredients) {
-        viewValidate.onSuccess(ingredients);
+    public void onSuccess(List<IngredientRealm> ingredientRealms) {
+        viewValidate.onSuccess(ingredientRealms);
     }
 }

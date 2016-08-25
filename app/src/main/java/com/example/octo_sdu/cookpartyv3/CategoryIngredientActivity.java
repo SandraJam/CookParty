@@ -11,15 +11,16 @@ import android.text.InputType;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.octo_sdu.cookpartyv3.back.MainDependencies;
-import com.example.octo_sdu.cookpartyv3.back.pojo.CategoryIngredient;
+import com.example.octo_sdu.cookpartyv3.back.ManagePicture;
 import com.example.octo_sdu.cookpartyv3.back.realm.CategoryIngredientRepositoryRealm;
 import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.CategoryIngredientInteractor;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.CategoryIngredientInteractorImpl;
+import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.CategoryIngredientInteractorDecorate;
+import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.model.CategoryIngredient;
 import com.example.octo_sdu.cookpartyv3.categoryIngredient.presenter.CategoryIngredientPresenterImpl;
+import com.example.octo_sdu.cookpartyv3.categoryIngredient.presenter.CategoryIngredientViewValidate;
+import com.example.octo_sdu.cookpartyv3.categoryIngredient.presenter.CategoryIngredientViewValidateDecorate;
 import com.example.octo_sdu.cookpartyv3.categoryIngredient.view.CategoryIngredientAdapter;
 import com.example.octo_sdu.cookpartyv3.categoryIngredient.view.CategoryIngredientImageAdapter;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.presenter.CategoryIngredientViewValidate;
 
 import java.util.List;
 
@@ -45,40 +46,18 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
 
         ButterKnife.bind(this);
 
-        final CategoryIngredientInteractor interactor = new CategoryIngredientInteractorImpl(new CategoryIngredientRepositoryRealm(), new CategoryIngredientPresenterImpl(new CategoryIngredientViewValidate() {
-            @Override
-            public void onSuccess(final List<CategoryIngredient> categoryIngredientList) {
-                MainDependencies.mainExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        CategoryIngredientActivity.this.onSuccess(categoryIngredientList);
-                    }
-                });
-            }
-        }));
+        interactorDecorated = new CategoryIngredientInteractorDecorate(
+                new CategoryIngredientRepositoryRealm(),
+                new CategoryIngredientPresenterImpl(
+                        new CategoryIngredientViewValidateDecorate(this)
+                )
+        );
 
-        interactorDecorated = new CategoryIngredientInteractor() {
-            @Override
-            public void allCategoryIngredient() {
-                MainDependencies.executor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        interactor.allCategoryIngredient();
-                    }
-                });
-            }
-
-            @Override
-            public void addCategoryIngredient(String name, int draw) {
-                interactor.addCategoryIngredient(name, draw);
-            }
-        };
-
-        categoryIngredientAdapter = new CategoryIngredientAdapter(interactor);
+        categoryIngredientAdapter = new CategoryIngredientAdapter(interactorDecorated);
         recyclerViewCategoryIngredient.setLayoutManager(new GridLayoutManager(this, getSpanCount()));
         recyclerViewCategoryIngredient.setAdapter(categoryIngredientAdapter);
 
-        interactor.allCategoryIngredient();
+        interactorDecorated.allCategoryIngredient();
 
         fabCategoryIngredient.setOnClickListener(
                 new View.OnClickListener() {
@@ -90,8 +69,19 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
         );
     }
 
+    @Override
+    public void onSuccess(List<CategoryIngredient> categoryIngredientList) {
+        categoryIngredientAdapter.setCategoryIngredients(categoryIngredientList);
+        recyclerViewCategoryIngredient.setAdapter(categoryIngredientAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        interactorDecorated.allCategoryIngredient();
+    }
+
     private MaterialDialog createDialogForCategory() {
-        final MainDependencies mainDependencies = new MainDependencies();
         final MaterialDialog.Builder materialDialogGallery = new MaterialDialog.Builder(this)
                 .title(R.string.choose_picture)
                 .content(R.string.choose_picture_category_ingredient);
@@ -104,7 +94,7 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
                 .input(getString(R.string.name_ingredient_category), null, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        final CategoryIngredientImageAdapter categoryIngredientImageAdapter = new CategoryIngredientImageAdapter(mainDependencies.givePictureCategoryList(), input.toString(), interactorDecorated);
+                        final CategoryIngredientImageAdapter categoryIngredientImageAdapter = new CategoryIngredientImageAdapter(ManagePicture.givePictureCategoryList(), input.toString(), interactorDecorated);
                         final MaterialDialog dialogGallery = materialDialogGallery
                                 .adapter(categoryIngredientImageAdapter, null).build();
                         categoryIngredientImageAdapter.setDialog(dialogGallery);
@@ -120,17 +110,5 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
         } else {
             return SPAN_COUNT_LANDSCAPE;
         }
-    }
-
-    @Override
-    public void onSuccess(List<CategoryIngredient> categoryIngredientList) {
-        categoryIngredientAdapter.setCategoryIngredients(categoryIngredientList);
-        recyclerViewCategoryIngredient.setAdapter(categoryIngredientAdapter);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        interactorDecorated.allCategoryIngredient();
     }
 }

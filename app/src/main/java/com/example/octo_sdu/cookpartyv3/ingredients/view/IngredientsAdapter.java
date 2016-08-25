@@ -5,14 +5,14 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.example.octo_sdu.cookpartyv3.R;
-import com.example.octo_sdu.cookpartyv3.back.pojo.Ingredient;
+import com.example.octo_sdu.cookpartyv3.back.realm.pojo.IngredientRealm;
 import com.example.octo_sdu.cookpartyv3.ingredients.interactor.IngredientsInteractor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsViewHolder> {
-    List<Ingredient> ingredientList = new ArrayList<>();
+    List<IngredientRealm> ingredientRealmList = new ArrayList<>();
     IngredientsInteractor ingredientsInteractor;
     String nameCategory;
 
@@ -28,15 +28,15 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsViewHold
 
     @Override
     public void onBindViewHolder(IngredientsViewHolder holder, int position) {
-        holder.bind(ingredientList.get(position).getName());
+        holder.bind(ingredientRealmList.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return ingredientList.size();
+        return ingredientRealmList.size();
     }
 
-    public void setIngredientList(List<Ingredient> ingredientList) {
-        this.ingredientList = ingredientList;
+    public void setIngredientRealmList(List<IngredientRealm> ingredientRealmList) {
+        this.ingredientRealmList = ingredientRealmList;
     }
 }

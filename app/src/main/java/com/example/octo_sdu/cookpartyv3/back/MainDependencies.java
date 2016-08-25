@@ -11,8 +11,6 @@ import com.example.octo_sdu.cookpartyv3.categoryRecipe.back.CategoryRecipeReposi
 import com.example.octo_sdu.cookpartyv3.ingredients.back.IngredientsRepository;
 import com.example.octo_sdu.cookpartyv3.ingredients.back.MeasuresRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -25,35 +23,19 @@ public class MainDependencies {
             new Handler(Looper.getMainLooper()).post(runnable);
         }
     };
-    private MeasuresRepository measuresRepository = null;
-    private CategoryIngredientRepository categoryIngredientRepository = null;
-    private IngredientsRepository ingredientsRepository = null;
-    private CategoryRecipeRepository categoryRecipeRepository = null;
 
-    public MainDependencies() {
-    }
+    private MeasuresRepository measuresRepository;
+    private CategoryIngredientRepository categoryIngredientRepository;
+    private IngredientsRepository ingredientsRepository;
+    private CategoryRecipeRepository categoryRecipeRepository;
 
-    public MainDependencies(MeasuresRepository measuresRepository, CategoryIngredientRepository categoryIngredientRepository, IngredientsRepository ingredientsRepository, CategoryRecipeRepository categoryRecipeRepository) {
-        this.measuresRepository = measuresRepository;
-        this.categoryIngredientRepository = categoryIngredientRepository;
-        this.ingredientsRepository = ingredientsRepository;
-        this.categoryRecipeRepository = categoryRecipeRepository;
-    }
+    private static MainDependencies mainDependenciesInstance = null;
 
-    public List<Integer> givePictureCategoryList(){
-        final ArrayList<Integer> pictures = new ArrayList<>();
-        pictures.add(R.drawable.vegetables);
-        pictures.add(R.drawable.fruits);
-        pictures.add(R.drawable.meat);
-        pictures.add(R.drawable.spice);
-        pictures.add(R.drawable.drink);
-        pictures.add(R.drawable.grocery);
-        pictures.add(R.drawable.meal);
-        pictures.add(R.drawable.gratin);
-        pictures.add(R.drawable.pizza);
-        pictures.add(R.drawable.pastry);
-        pictures.add(R.drawable.sauce);
-        return pictures;
+    public static MainDependencies getInstance() {
+        if (mainDependenciesInstance==null){
+            mainDependenciesInstance = new MainDependencies();
+        }
+        return mainDependenciesInstance;
     }
 
     public void checkFirstTime(Context context){
@@ -137,5 +119,21 @@ public class MainDependencies {
         ingredientsRepository.add(resources.getString(R.string.egg), resources.getString(R.string.grocery));
         ingredientsRepository.add(resources.getString(R.string.salt), resources.getString(R.string.grocery));
         ingredientsRepository.add(resources.getString(R.string.pasta), resources.getString(R.string.grocery));
+    }
+
+    public void setMeasuresRepository(MeasuresRepository measuresRepository) {
+        this.measuresRepository = measuresRepository;
+    }
+
+    public void setCategoryIngredientRepository(CategoryIngredientRepository categoryIngredientRepository) {
+        this.categoryIngredientRepository = categoryIngredientRepository;
+    }
+
+    public void setIngredientsRepository(IngredientsRepository ingredientsRepository) {
+        this.ingredientsRepository = ingredientsRepository;
+    }
+
+    public void setCategoryRecipeRepository(CategoryRecipeRepository categoryRecipeRepository) {
+        this.categoryRecipeRepository = categoryRecipeRepository;
     }
 }

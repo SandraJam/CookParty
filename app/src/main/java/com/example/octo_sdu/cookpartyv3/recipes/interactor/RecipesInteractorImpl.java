@@ -1,6 +1,6 @@
 package com.example.octo_sdu.cookpartyv3.recipes.interactor;
 
-import com.example.octo_sdu.cookpartyv3.back.pojo.Recipe;
+import com.example.octo_sdu.cookpartyv3.back.realm.pojo.RecipeRealm;
 import com.example.octo_sdu.cookpartyv3.recipes.back.RecipesRepository;
 import com.example.octo_sdu.cookpartyv3.recipes.presenter.RecipesPresenter;
 
@@ -31,11 +31,11 @@ public class RecipesInteractorImpl implements RecipesInteractor {
         if (nameCategory == null){
             recipesPresenter.onEmpty();
         } else {
-            final List<Recipe> recipes = recipesRepository.allRecipesByCategory(nameCategory);
-            if (recipes.isEmpty()){
+            final List<RecipeRealm> recipeRealms = recipesRepository.allRecipesByCategory(nameCategory);
+            if (recipeRealms.isEmpty()){
                 recipesPresenter.onEmpty();
             } else {
-                recipesPresenter.onSuccess(recipes);
+                recipesPresenter.onSuccess(recipeRealms);
             }
         }
     }

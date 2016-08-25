@@ -12,7 +12,8 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.octo_sdu.cookpartyv3.back.MainDependencies;
-import com.example.octo_sdu.cookpartyv3.back.pojo.CategoryRecipe;
+import com.example.octo_sdu.cookpartyv3.back.ManagePicture;
+import com.example.octo_sdu.cookpartyv3.back.realm.pojo.CategoryRecipeRealm;
 import com.example.octo_sdu.cookpartyv3.back.realm.CategoryRecipeRepositoryRealmImpl;
 import com.example.octo_sdu.cookpartyv3.categoryRecipe.interactor.CategoryRecipeInteractor;
 import com.example.octo_sdu.cookpartyv3.categoryRecipe.interactor.CategoryRecipeInteractorImpl;
@@ -71,8 +72,8 @@ public class CategoryRecipeActivity extends AppCompatActivity implements Categor
     }
 
     @Override
-    public void onSuccess(List<CategoryRecipe> categoryRecipe) {
-        categoryRecipeViewAdapter.setCategoryRecipeList(categoryRecipe);
+    public void onSuccess(List<CategoryRecipeRealm> categoryRecipeRealm) {
+        categoryRecipeViewAdapter.setCategoryRecipeRealmList(categoryRecipeRealm);
         recyclerViewCategoryRecipe.setAdapter(categoryRecipeViewAdapter);
     }
 
@@ -90,7 +91,7 @@ public class CategoryRecipeActivity extends AppCompatActivity implements Categor
                 .input(getString(R.string.name_recipe_category), null, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        final CategoryRecipeImageAdapter categoryRecipeImageAdapter = new CategoryRecipeImageAdapter(mainDependencies.givePictureCategoryList(), input.toString(), interactor);
+                        final CategoryRecipeImageAdapter categoryRecipeImageAdapter = new CategoryRecipeImageAdapter(ManagePicture.givePictureCategoryList(), input.toString(), interactor);
                         final MaterialDialog dialogGallery = materialDialogGallery
                                 .adapter(categoryRecipeImageAdapter, null).build();
                         categoryRecipeImageAdapter.setDialog(dialogGallery);

@@ -23,7 +23,7 @@ import android.widget.ViewFlipper;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.octo_sdu.cookpartyv3.back.pojo.Ingredient;
+import com.example.octo_sdu.cookpartyv3.back.realm.pojo.IngredientRealm;
 import com.example.octo_sdu.cookpartyv3.back.realm.IngredientsRepositoryRealmImpl;
 import com.example.octo_sdu.cookpartyv3.ingredients.interactor.IngredientsInteractor;
 import com.example.octo_sdu.cookpartyv3.ingredients.interactor.IngredientsInteractorImpl;
@@ -141,9 +141,9 @@ public class IngredientsActivity extends AppCompatActivity implements Ingredient
     }
 
     @Override
-    public void onSuccess(List<Ingredient> ingredients) {
+    public void onSuccess(List<IngredientRealm> ingredientRealms) {
         viewFlipperIngredients.setDisplayedChild(0);
-        ingredientsAdapter.setIngredientList(ingredients);
+        ingredientsAdapter.setIngredientRealmList(ingredientRealms);
         recyclerView.setAdapter(ingredientsAdapter);
     }
 

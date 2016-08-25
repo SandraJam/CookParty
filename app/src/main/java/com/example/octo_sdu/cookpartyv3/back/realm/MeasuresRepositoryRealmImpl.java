@@ -1,6 +1,6 @@
 package com.example.octo_sdu.cookpartyv3.back.realm;
 
-import com.example.octo_sdu.cookpartyv3.back.pojo.Measure;
+import com.example.octo_sdu.cookpartyv3.back.realm.pojo.MeasureRealm;
 import com.example.octo_sdu.cookpartyv3.ingredients.back.MeasuresRepository;
 
 import java.util.List;
@@ -13,18 +13,18 @@ public class MeasuresRepositoryRealmImpl implements MeasuresRepository {
     @Override
     public void add(String name) {
         realm.beginTransaction();
-        Measure measure = realm.createObject(Measure.class);
-        measure.setName(name);
+        MeasureRealm measureRealm = realm.createObject(MeasureRealm.class);
+        measureRealm.setName(name);
         realm.commitTransaction();
     }
 
     @Override
-    public List<Measure> allMeasures() {
-        return realm.where(Measure.class).findAll();
+    public List<MeasureRealm> allMeasures() {
+        return realm.where(MeasureRealm.class).findAll();
     }
 
     @Override
     public int checkFirstTime() {
-        return realm.where(Measure.class).findAll().size();
+        return realm.where(MeasureRealm.class).findAll().size();
     }
 }

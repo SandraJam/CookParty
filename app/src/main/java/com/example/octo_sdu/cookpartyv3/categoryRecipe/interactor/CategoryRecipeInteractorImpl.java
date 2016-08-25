@@ -1,6 +1,6 @@
 package com.example.octo_sdu.cookpartyv3.categoryRecipe.interactor;
 
-import com.example.octo_sdu.cookpartyv3.back.pojo.CategoryRecipe;
+import com.example.octo_sdu.cookpartyv3.back.realm.pojo.CategoryRecipeRealm;
 import com.example.octo_sdu.cookpartyv3.categoryRecipe.back.CategoryRecipeRepository;
 import com.example.octo_sdu.cookpartyv3.categoryRecipe.presenter.CategoryRecipePresenter;
 
@@ -17,8 +17,8 @@ public class CategoryRecipeInteractorImpl implements CategoryRecipeInteractor {
 
     @Override
     public void allCategoryRecipe() {
-        final List<CategoryRecipe> categoryRecipes = categoryRecipeRepository.allCategoryRecipe();
-        categoryRecipePresenter.onSuccess(categoryRecipes);
+        final List<CategoryRecipeRealm> categoryRecipeRealms = categoryRecipeRepository.allCategoryRecipe();
+        categoryRecipePresenter.onSuccess(categoryRecipeRealms);
     }
 
     @Override
