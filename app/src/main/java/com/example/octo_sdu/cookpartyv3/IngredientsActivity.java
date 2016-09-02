@@ -1,6 +1,5 @@
 package com.example.octo_sdu.cookpartyv3;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,28 +22,34 @@ import android.widget.ViewFlipper;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.octo_sdu.cookpartyv3.back.realm.pojo.IngredientRealm;
-import com.example.octo_sdu.cookpartyv3.back.realm.IngredientsRepositoryRealmImpl;
-import com.example.octo_sdu.cookpartyv3.ingredients.interactor.IngredientsInteractor;
-import com.example.octo_sdu.cookpartyv3.ingredients.interactor.IngredientsInteractorImpl;
+import com.example.octo_sdu.cookpartyv3.back.Dependencies;
+import com.example.octo_sdu.cookpartyv3.back.ExecutorInstance;
+import com.example.octo_sdu.cookpartyv3.ingredients.dagger.DaggerIngredientsComponent;
+import com.example.octo_sdu.core.coreIngredients.IngredientsInteractor;
+import com.example.octo_sdu.cookpartyv3.ingredients.decorate.IngredientsInteractorDecorate;
+import com.example.octo_sdu.core.coreIngredients.model.Ingredient;
 import com.example.octo_sdu.cookpartyv3.ingredients.presenter.IngredientsPresenterImpl;
+import com.example.octo_sdu.cookpartyv3.ingredients.presenter.IngredientsViewValidate;
+import com.example.octo_sdu.cookpartyv3.ingredients.decorate.IngredientsViewValidateDecorate;
 import com.example.octo_sdu.cookpartyv3.ingredients.view.IngredientsAdapter;
-import com.example.octo_sdu.cookpartyv3.ingredients.view.IngredientsViewValidate;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import realm.IngredientsRepositoryRealmImpl;
 
 public class IngredientsActivity extends AppCompatActivity implements IngredientsViewValidate{
 
     public static final String IMAGE = "image";
     public static final String NAME = "name";
-
     private static final int SPAN_COUNT_PORTRAIT = 1;
     private static final int SPAN_COUNT_LANDSCAPE = 2;
     public static final int MIN_LENGTH_WORD = 2;
     public static final int MAX_LENGTH_WORD = 15;
+
     @BindView(R.id.image_category_in_ingredients)
     ImageView imageViewCategory;
     @BindView(R.id.text_category_in_ingredients)
@@ -63,7 +68,10 @@ public class IngredientsActivity extends AppCompatActivity implements Ingredient
     CollapsingToolbarLayout collapsingToolbarLayout;
 
     private IngredientsAdapter ingredientsAdapter;
-    private IngredientsInteractor ingredientsInteractor;
+    @Inject
+    IngredientsInteractor ingredientsInteractor;
+    @Inject
+    IngredientsViewValidateDecorate ingredientsViewValidateDecorate;
     private String nameCategory;
 
     @Override
@@ -75,15 +83,13 @@ public class IngredientsActivity extends AppCompatActivity implements Ingredient
 
         setSupportActionBar(toolbar);
 
-        final Intent intent = getIntent();
-        nameCategory = intent.getStringExtra(NAME);
-        imageViewCategory.setImageDrawable(ResourcesCompat.getDrawable(getResources(), intent.getIntExtra(IMAGE, 0), null));
+        nameCategory = getIntent().getStringExtra(NAME);
+        imageViewCategory.setImageDrawable(ResourcesCompat.getDrawable(getResources(), getIntent().getIntExtra(IMAGE, 0), null));
         textViewCategory.setText(nameCategory);
-
         collapsingToolbarLayout.setTitle(nameCategory);
         collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
 
-        ingredientsInteractor = new IngredientsInteractorImpl(new IngredientsPresenterImpl(this), new IngredientsRepositoryRealmImpl());
+        DaggerIngredientsComponent.builder().mainComponent(Dependencies.instance.mainComponent).build().inject(this);
 
         ingredientsAdapter = new IngredientsAdapter(ingredientsInteractor, nameCategory);
         recyclerView.setLayoutManager(new GridLayoutManager(this, getSpanCount()));
@@ -91,6 +97,18 @@ public class IngredientsActivity extends AppCompatActivity implements Ingredient
 
         ingredientsInteractor.allIngredientsByCategory(nameCategory);
         addPossibility();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ingredientsViewValidateDecorate.viewValidate = this;
+    }
+
+    @Override
+    protected void onStop() {
+        ingredientsViewValidateDecorate.viewValidate = null;
+        super.onStop();
     }
 
     @Override
@@ -141,10 +159,11 @@ public class IngredientsActivity extends AppCompatActivity implements Ingredient
     }
 
     @Override
-    public void onSuccess(List<IngredientRealm> ingredientRealms) {
+    public void onSuccess(List<Ingredient> ingredients) {
         viewFlipperIngredients.setDisplayedChild(0);
-        ingredientsAdapter.setIngredientRealmList(ingredientRealms);
+        ingredientsAdapter.setIngredientList(ingredients);
         recyclerView.setAdapter(ingredientsAdapter);
+        addPossibility();
     }
 
     private void addPossibility() {

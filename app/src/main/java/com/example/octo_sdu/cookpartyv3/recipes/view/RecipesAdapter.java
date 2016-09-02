@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.example.octo_sdu.cookpartyv3.R;
-import com.example.octo_sdu.cookpartyv3.recipes.interactor.RecipesInteractor;
+import com.example.octo_sdu.core.coreRecipes.RecipesInteractor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecipesAdapter extends RecyclerView.Adapter<RecipesViewHolder> {
-    List<RecipeModel> recipeModelList = new ArrayList<>();
+    List<RecipeModelView> recipeModelViewList = new ArrayList<>();
     RecipesInteractor recipesInteractor;
     String nameCategory;
 
@@ -27,15 +27,15 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesViewHolder> {
 
     @Override
     public void onBindViewHolder(RecipesViewHolder holder, int position) {
-        holder.bind(recipeModelList.get(position).getTitle());
+        holder.bind(recipeModelViewList.get(position).getTitle());
     }
 
     @Override
     public int getItemCount() {
-        return recipeModelList.size();
+        return recipeModelViewList.size();
     }
 
-    public void setRecipeModelList(List<RecipeModel> recipeModelList) {
-        this.recipeModelList = recipeModelList;
+    public void setRecipeModelViewList(List<RecipeModelView> recipeModelViewList) {
+        this.recipeModelViewList = recipeModelViewList;
     }
 }

@@ -11,21 +11,26 @@ import android.text.InputType;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.octo_sdu.cookpartyv3.back.MainDependencies;
+import com.example.octo_sdu.cookpartyv3.back.Dependencies;
+import com.example.octo_sdu.cookpartyv3.back.ExecutorInstance;
 import com.example.octo_sdu.cookpartyv3.back.ManagePicture;
-import com.example.octo_sdu.cookpartyv3.back.realm.pojo.CategoryRecipeRealm;
-import com.example.octo_sdu.cookpartyv3.back.realm.CategoryRecipeRepositoryRealmImpl;
-import com.example.octo_sdu.cookpartyv3.categoryRecipe.interactor.CategoryRecipeInteractor;
-import com.example.octo_sdu.cookpartyv3.categoryRecipe.interactor.CategoryRecipeInteractorImpl;
+import com.example.octo_sdu.cookpartyv3.categoryRecipe.dagger.DaggerCategoryRecipeComponent;
+import com.example.octo_sdu.core.coreCategoryRecipe.CategoryRecipeInteractor;
+import com.example.octo_sdu.cookpartyv3.categoryRecipe.decorate.CategoryRecipeInteractorDecorate;
+import com.example.octo_sdu.core.coreCategoryRecipe.model.CategoryRecipe;
 import com.example.octo_sdu.cookpartyv3.categoryRecipe.presenter.CategoryRecipePresenterImpl;
+import com.example.octo_sdu.cookpartyv3.categoryRecipe.presenter.CategoryRecipeViewValidate;
+import com.example.octo_sdu.cookpartyv3.categoryRecipe.decorate.CategoryRecipeViewValidateDecorate;
 import com.example.octo_sdu.cookpartyv3.categoryRecipe.view.CategoryRecipeImageAdapter;
 import com.example.octo_sdu.cookpartyv3.categoryRecipe.view.CategoryRecipeViewAdapter;
-import com.example.octo_sdu.cookpartyv3.categoryRecipe.view.CategoryRecipeViewValidate;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import realm.CategoryRecipeRepositoryRealmImpl;
 
 public class CategoryRecipeActivity extends AppCompatActivity implements CategoryRecipeViewValidate{
     private static final int SPAN_COUNT_PORTRAIT = 1;
@@ -35,8 +40,12 @@ public class CategoryRecipeActivity extends AppCompatActivity implements Categor
     RecyclerView recyclerViewCategoryRecipe;
     @BindView(R.id.fab_category_recipe_add)
     FloatingActionButton fabCategoryRecipe;
+
     private CategoryRecipeViewAdapter categoryRecipeViewAdapter;
-    private CategoryRecipeInteractor interactor;
+    @Inject
+    CategoryRecipeInteractor interactor;
+    @Inject
+    CategoryRecipeViewValidateDecorate categoryRecipeViewValidateDecorate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +54,11 @@ public class CategoryRecipeActivity extends AppCompatActivity implements Categor
 
         ButterKnife.bind(this);
 
-        interactor = new CategoryRecipeInteractorImpl(new CategoryRecipeRepositoryRealmImpl(), new CategoryRecipePresenterImpl(this));
+        DaggerCategoryRecipeComponent.builder().mainComponent(Dependencies.instance.mainComponent).build().inject(this);
 
         categoryRecipeViewAdapter = new CategoryRecipeViewAdapter();
         recyclerViewCategoryRecipe.setLayoutManager(new GridLayoutManager(this, getSpanCount()));
         recyclerViewCategoryRecipe.setAdapter(categoryRecipeViewAdapter);
-
-        interactor.allCategoryRecipe();
 
         fabCategoryRecipe.setOnClickListener(
                 new View.OnClickListener() {
@@ -63,6 +70,18 @@ public class CategoryRecipeActivity extends AppCompatActivity implements Categor
         );
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        categoryRecipeViewValidateDecorate.categoryRecipeViewValidate = this;
+    }
+
+    @Override
+    protected void onStop() {
+        categoryRecipeViewValidateDecorate.categoryRecipeViewValidate = null;
+        super.onStop();
+    }
+
     private int getSpanCount() {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             return SPAN_COUNT_PORTRAIT;
@@ -72,13 +91,12 @@ public class CategoryRecipeActivity extends AppCompatActivity implements Categor
     }
 
     @Override
-    public void onSuccess(List<CategoryRecipeRealm> categoryRecipeRealm) {
-        categoryRecipeViewAdapter.setCategoryRecipeRealmList(categoryRecipeRealm);
+    public void onSuccess(List<CategoryRecipe> categoryRecipe) {
+        categoryRecipeViewAdapter.setCategoryRecipeList(categoryRecipe);
         recyclerViewCategoryRecipe.setAdapter(categoryRecipeViewAdapter);
     }
 
     private MaterialDialog createDialogForCategory() {
-        final MainDependencies mainDependencies = new MainDependencies();
         final MaterialDialog.Builder materialDialogGallery = new MaterialDialog.Builder(this)
                 .title(R.string.choose_picture)
                 .content(R.string.choose_picture_category_recipe);

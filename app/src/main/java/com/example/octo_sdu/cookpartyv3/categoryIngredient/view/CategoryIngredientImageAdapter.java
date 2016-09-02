@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.octo_sdu.cookpartyv3.R;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.CategoryIngredientInteractor;
+import com.example.octo_sdu.core.coreCategoryIngredient.CategoryIngredientInteractor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class CategoryIngredientImageAdapter extends RecyclerView.Adapter<Categor
     private List<Integer> listImageDrawable= new ArrayList<>();
     private String name;
     private CategoryIngredientInteractor categoryIngredientInteractor;
-    private MaterialDialog dialog;
+    private MaterialDialog dialog = null;
 
     public CategoryIngredientImageAdapter(List<Integer> listImageDrawable, String name, CategoryIngredientInteractor categoryIngredientInteractor) {
         this.listImageDrawable = listImageDrawable;

@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.octo_sdu.cookpartyv3.R;
-import com.example.octo_sdu.cookpartyv3.recipes.interactor.RecipesInteractor;
+import com.example.octo_sdu.core.coreRecipes.RecipesInteractor;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

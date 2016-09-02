@@ -19,16 +19,20 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.octo_sdu.cookpartyv3.back.Dependencies;
 import com.example.octo_sdu.cookpartyv3.back.QuicksandTextView;
-import com.example.octo_sdu.cookpartyv3.back.realm.RecipesRepositoryRealmImpl;
-import com.example.octo_sdu.cookpartyv3.recipes.interactor.RecipesInteractor;
-import com.example.octo_sdu.cookpartyv3.recipes.interactor.RecipesInteractorImpl;
+import com.example.octo_sdu.cookpartyv3.recipes.dagger.DaggerRecipesComponent;
+import com.example.octo_sdu.cookpartyv3.recipes.decorate.RecipesViewValidateDecorate;
+import com.example.octo_sdu.core.coreRecipes.RecipesInteractor;
+import com.example.octo_sdu.core.coreRecipes.RecipesInteractorImpl;
 import com.example.octo_sdu.cookpartyv3.recipes.presenter.RecipesPresenterImpl;
-import com.example.octo_sdu.cookpartyv3.recipes.view.RecipeModel;
+import com.example.octo_sdu.cookpartyv3.recipes.view.RecipeModelView;
 import com.example.octo_sdu.cookpartyv3.recipes.view.RecipesAdapter;
-import com.example.octo_sdu.cookpartyv3.recipes.view.RecipesViewValidate;
+import com.example.octo_sdu.cookpartyv3.recipes.presenter.RecipesViewValidate;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +56,10 @@ public class RecipesActivity extends AppCompatActivity implements RecipesViewVal
     ImageView imageViewNoRecipe;
     @BindView(R.id.text_no_recipe)
     TextView textViewNoRecipe;
-    private RecipesInteractor recipesInteractor;
+    @Inject
+    RecipesInteractor recipesInteractor;
+    @Inject
+    RecipesViewValidateDecorate recipesViewValidateDecorate;
     private String nameCategory;
     private RecipesAdapter recipesAdapter;
 
@@ -73,11 +80,23 @@ public class RecipesActivity extends AppCompatActivity implements RecipesViewVal
         collapsingToolbarLayout.setTitle(nameCategory);
         collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
 
-        recipesInteractor = new RecipesInteractorImpl(new RecipesRepositoryRealmImpl(), new RecipesPresenterImpl(this));
+        DaggerRecipesComponent.builder().mainComponent(Dependencies.instance.mainComponent).build().inject(this);
 
         recipesAdapter = new RecipesAdapter(recipesInteractor, nameCategory);
         recyclerView.setLayoutManager(new GridLayoutManager(this, getSpanCount()));
         recyclerView.setAdapter(recipesAdapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        recipesViewValidateDecorate.recipesViewValidate = this;
+    }
+
+    @Override
+    protected void onStop() {
+        recipesViewValidateDecorate.recipesViewValidate = null;
+        super.onStop();
     }
 
     @Override
@@ -130,11 +149,11 @@ public class RecipesActivity extends AppCompatActivity implements RecipesViewVal
     }
 
     @Override
-    public void onSuccess(List<RecipeModel> recipeModelList) {
+    public void onSuccess(List<RecipeModelView> recipeModelViewList) {
         recyclerView.setVisibility(View.VISIBLE);
         imageViewNoRecipe.setVisibility(View.GONE);
         textViewNoRecipe.setVisibility(View.GONE);
-        recipesAdapter.setRecipeModelList(recipeModelList);
+        recipesAdapter.setRecipeModelViewList(recipeModelViewList);
         recyclerView.setAdapter(recipesAdapter);
     }
 }

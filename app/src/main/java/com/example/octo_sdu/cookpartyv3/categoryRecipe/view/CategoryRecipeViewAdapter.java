@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.example.octo_sdu.cookpartyv3.R;
-import com.example.octo_sdu.cookpartyv3.back.realm.pojo.CategoryRecipeRealm;
+import com.example.octo_sdu.core.coreCategoryRecipe.model.CategoryRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryRecipeViewAdapter extends RecyclerView.Adapter<CategoryRecipeViewHolder> {
-    private List<CategoryRecipeRealm> categoryRecipeRealmList = new ArrayList<>();
+    private List<CategoryRecipe> categoryRecipeList = new ArrayList<>();
 
     @Override
     public CategoryRecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -20,15 +20,15 @@ public class CategoryRecipeViewAdapter extends RecyclerView.Adapter<CategoryReci
 
     @Override
     public void onBindViewHolder(CategoryRecipeViewHolder holder, int position) {
-        holder.bind(categoryRecipeRealmList.get(position).getName(), categoryRecipeRealmList.get(position).getDraw());
+        holder.bind(categoryRecipeList.get(position).getName(), categoryRecipeList.get(position).getDraw());
     }
 
     @Override
     public int getItemCount() {
-        return categoryRecipeRealmList.size();
+        return categoryRecipeList.size();
     }
 
-    public void setCategoryRecipeRealmList(List<CategoryRecipeRealm> categoryRecipeRealmList) {
-        this.categoryRecipeRealmList = categoryRecipeRealmList;
+    public void setCategoryRecipeList(List<CategoryRecipe> categoryRecipeList) {
+        this.categoryRecipeList = categoryRecipeList;
     }
 }

@@ -1,10 +1,10 @@
 package com.example.octo_sdu.cookpartyv3.recipes.presenter;
 
-import com.example.octo_sdu.cookpartyv3.back.realm.pojo.IngredientInRecipeRealm;
-import com.example.octo_sdu.cookpartyv3.back.realm.pojo.RecipeRealm;
-import com.example.octo_sdu.cookpartyv3.back.realm.pojo.StepInRecipeRealm;
-import com.example.octo_sdu.cookpartyv3.recipes.view.RecipeModel;
-import com.example.octo_sdu.cookpartyv3.recipes.view.RecipesViewValidate;
+import com.example.octo_sdu.core.coreRecipes.RecipesPresenter;
+import com.example.octo_sdu.core.coreRecipes.model.IngredientInRecipe;
+import com.example.octo_sdu.core.coreRecipes.model.Recipe;
+import com.example.octo_sdu.core.coreRecipes.model.StepInRecipe;
+import com.example.octo_sdu.cookpartyv3.recipes.view.RecipeModelView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,20 +17,20 @@ public class RecipesPresenterImpl implements RecipesPresenter {
     }
 
     @Override
-    public void onSuccess(List<RecipeRealm> recipeRealms) {
-        final List<RecipeModel> recipeModels = new ArrayList<>();
-        for (RecipeRealm recipeRealm : recipeRealms) {
+    public void onSuccess(List<Recipe> recipes) {
+        final List<RecipeModelView> recipeModelViews = new ArrayList<>();
+        for (Recipe recipe : recipes) {
             final List<String> ingredients = new ArrayList<>();
-            for (IngredientInRecipeRealm ingredient : recipeRealm.getIngredients()) {
-                ingredients.add(ingredient.getValue()+" "+ingredient.getMeasureRealm().getName()+" "+ingredient.getIngredientRealm().getName());
+            for (IngredientInRecipe ingredient : recipe.getIngredientInRecipeList()) {
+                ingredients.add(ingredient.getValue()+" "+ingredient.getMeasure().getName()+" "+ingredient.getIngredient().getName());
             }
             final List<String> steps = new ArrayList<>();
-            for (StepInRecipeRealm step : recipeRealm.getSteps()) {
+            for (StepInRecipe step : recipe.getStepInRecipeList()) {
                 steps.add(step.getContent());
             }
-            recipeModels.add(new RecipeModel(recipeRealm.getTitle(), ingredients, steps));
+            recipeModelViews.add(new RecipeModelView(recipe.getTitle(), ingredients, steps));
         }
-        recipesViewValidate.onSuccess(recipeModels);
+        recipesViewValidate.onSuccess(recipeModelViews);
     }
 
     @Override

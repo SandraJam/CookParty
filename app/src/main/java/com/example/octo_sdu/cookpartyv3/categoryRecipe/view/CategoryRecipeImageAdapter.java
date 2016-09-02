@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.octo_sdu.cookpartyv3.R;
-import com.example.octo_sdu.cookpartyv3.categoryRecipe.interactor.CategoryRecipeInteractor;
+import com.example.octo_sdu.core.coreCategoryRecipe.CategoryRecipeInteractor;
 
 import java.util.ArrayList;
 import java.util.List;

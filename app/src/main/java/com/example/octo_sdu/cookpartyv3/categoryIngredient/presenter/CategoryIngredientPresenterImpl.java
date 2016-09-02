@@ -1,7 +1,7 @@
 package com.example.octo_sdu.cookpartyv3.categoryIngredient.presenter;
 
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.CategoryIngredientPresenter;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.model.CategoryIngredient;
+import com.example.octo_sdu.core.coreCategoryIngredient.CategoryIngredientPresenter;
+import com.example.octo_sdu.core.coreCategoryIngredient.model.CategoryIngredient;
 
 import java.util.List;
 

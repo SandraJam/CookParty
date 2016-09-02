@@ -11,18 +11,19 @@ import android.text.InputType;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.octo_sdu.cookpartyv3.back.Dependencies;
 import com.example.octo_sdu.cookpartyv3.back.ManagePicture;
-import com.example.octo_sdu.cookpartyv3.back.realm.CategoryIngredientRepositoryRealm;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.CategoryIngredientInteractor;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.CategoryIngredientInteractorDecorate;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.core.model.CategoryIngredient;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.presenter.CategoryIngredientPresenterImpl;
+import com.example.octo_sdu.cookpartyv3.categoryIngredient.dagger.DaggerCategoryIngredientComponent;
+import com.example.octo_sdu.cookpartyv3.categoryIngredient.decorate.CategoryIngredientViewValidateDecorate;
 import com.example.octo_sdu.cookpartyv3.categoryIngredient.presenter.CategoryIngredientViewValidate;
-import com.example.octo_sdu.cookpartyv3.categoryIngredient.presenter.CategoryIngredientViewValidateDecorate;
 import com.example.octo_sdu.cookpartyv3.categoryIngredient.view.CategoryIngredientAdapter;
 import com.example.octo_sdu.cookpartyv3.categoryIngredient.view.CategoryIngredientImageAdapter;
+import com.example.octo_sdu.core.coreCategoryIngredient.CategoryIngredientInteractor;
+import com.example.octo_sdu.core.coreCategoryIngredient.model.CategoryIngredient;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +38,11 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
     FloatingActionButton fabCategoryIngredient;
 
     CategoryIngredientAdapter categoryIngredientAdapter;
-    private CategoryIngredientInteractor interactorDecorated;
+
+    @Inject
+    CategoryIngredientInteractor interactorDecorated;
+    @Inject
+    CategoryIngredientViewValidateDecorate viewValidateDecorate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +51,16 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
 
         ButterKnife.bind(this);
 
-        interactorDecorated = new CategoryIngredientInteractorDecorate(
-                new CategoryIngredientRepositoryRealm(),
-                new CategoryIngredientPresenterImpl(
-                        new CategoryIngredientViewValidateDecorate(this)
-                )
-        );
+        DaggerCategoryIngredientComponent.builder().mainComponent(Dependencies.instance.mainComponent).build().inject(this);
 
-        categoryIngredientAdapter = new CategoryIngredientAdapter(interactorDecorated);
+        categoryIngredientAdapter = new CategoryIngredientAdapter();
         recyclerViewCategoryIngredient.setLayoutManager(new GridLayoutManager(this, getSpanCount()));
-        recyclerViewCategoryIngredient.setAdapter(categoryIngredientAdapter);
+    }
 
-        interactorDecorated.allCategoryIngredient();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        viewValidateDecorate.categoryIngredientViewValidate = this;
 
         fabCategoryIngredient.setOnClickListener(
                 new View.OnClickListener() {
@@ -79,6 +82,12 @@ public class CategoryIngredientActivity extends AppCompatActivity implements Cat
     protected void onResume() {
         super.onResume();
         interactorDecorated.allCategoryIngredient();
+    }
+
+    @Override
+    protected void onStop() {
+        viewValidateDecorate.categoryIngredientViewValidate = null;
+        super.onStop();
     }
 
     private MaterialDialog createDialogForCategory() {
