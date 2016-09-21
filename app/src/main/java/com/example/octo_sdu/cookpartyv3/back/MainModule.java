@@ -18,10 +18,6 @@ import realm.RecipesRepositoryRealmImpl;
 @dagger.Module
 public class MainModule {
 
-    @Singleton @Provides static ExecutorInstance providesExecutorInstace() {
-        return new ExecutorInstance();
-    }
-
     @Singleton @Provides static MeasuresRepository providesMeasuresRepository() {
         return new MeasuresRepositoryRealmImpl();
     }

@@ -2,9 +2,6 @@ package com.example.octo_sdu.cookpartyv3.recipes.decorate;
 
 import com.example.octo_sdu.cookpartyv3.back.ExecutorInstance;
 import com.example.octo_sdu.core.coreRecipes.RecipesInteractor;
-import com.example.octo_sdu.core.coreRecipes.RecipesInteractorImpl;
-import com.example.octo_sdu.core.coreRecipes.RecipesPresenter;
-import com.example.octo_sdu.core.coreRecipes.RecipesRepository;
 
 import java.util.concurrent.Executor;
 
@@ -42,6 +39,36 @@ public class RecipesInteractorDecorate implements RecipesInteractor {
             @Override
             public void run() {
                 recipesInteractor.allRecipesByCategory(nameCategory);
+            }
+        });
+    }
+
+    @Override
+    public void addRecipe(final String title, final String nameCategory) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipesInteractor.addRecipe(title, nameCategory);
+            }
+        });
+    }
+
+    @Override
+    public void addIngredientsToRecipe(final String nameIngredient, final String nameRecipe, final String value, final String measure) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipesInteractor.addIngredientsToRecipe(nameIngredient, nameRecipe, value, measure);
+            }
+        });
+    }
+
+    @Override
+    public void addStepToRecipe(final String content, final String nameRecipe) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipesInteractor.addStepToRecipe(content, nameRecipe);
             }
         });
     }

@@ -6,6 +6,7 @@ import io.realm.RealmObject;
 
 public class StepInRecipeRealm extends RealmObject{
     private String content;
+    private RecipeRealm recipeRealm;
 
     public String getContent() {
         return content;
@@ -17,5 +18,13 @@ public class StepInRecipeRealm extends RealmObject{
 
     public StepInRecipe realmToPojo() {
         return new StepInRecipe(content);
+    }
+
+    public RecipeRealm getRecipeRealm() {
+        return recipeRealm;
+    }
+
+    public void setRecipeRealm(RecipeRealm recipeRealm) {
+        this.recipeRealm = recipeRealm;
     }
 }

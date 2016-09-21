@@ -5,17 +5,19 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -23,12 +25,10 @@ import com.example.octo_sdu.cookpartyv3.back.Dependencies;
 import com.example.octo_sdu.cookpartyv3.back.QuicksandTextView;
 import com.example.octo_sdu.cookpartyv3.recipes.dagger.DaggerRecipesComponent;
 import com.example.octo_sdu.cookpartyv3.recipes.decorate.RecipesViewValidateDecorate;
-import com.example.octo_sdu.core.coreRecipes.RecipesInteractor;
-import com.example.octo_sdu.core.coreRecipes.RecipesInteractorImpl;
-import com.example.octo_sdu.cookpartyv3.recipes.presenter.RecipesPresenterImpl;
+import com.example.octo_sdu.cookpartyv3.recipes.presenter.RecipesViewValidate;
 import com.example.octo_sdu.cookpartyv3.recipes.view.RecipeModelView;
 import com.example.octo_sdu.cookpartyv3.recipes.view.RecipesAdapter;
-import com.example.octo_sdu.cookpartyv3.recipes.presenter.RecipesViewValidate;
+import com.example.octo_sdu.core.coreRecipes.RecipesInteractor;
 
 import java.util.List;
 
@@ -40,6 +40,7 @@ import butterknife.ButterKnife;
 public class RecipesActivity extends AppCompatActivity implements RecipesViewValidate{
     private static final String NAME = "name";
     private static final String IMAGE = "image";
+    private static final String NAMECATEGORY = "nameCategory";
     private static final int SPAN_COUNT_PORTRAIT = 1;
     private static final int SPAN_COUNT_LANDSCAPE = 2;
     @BindView(R.id.toolbar_recipes)
@@ -52,10 +53,10 @@ public class RecipesActivity extends AppCompatActivity implements RecipesViewVal
     CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.recycler_recipe)
     RecyclerView recyclerView;
-    @BindView(R.id.image_no_recipe)
-    ImageView imageViewNoRecipe;
-    @BindView(R.id.text_no_recipe)
-    TextView textViewNoRecipe;
+    @BindView(R.id.viewFlipper_recipes)
+    ViewFlipper viewFlipperRecipes;
+    @BindView(R.id.fab_add_recipe)
+    FloatingActionButton fabAddRecipe;
     @Inject
     RecipesInteractor recipesInteractor;
     @Inject
@@ -82,9 +83,18 @@ public class RecipesActivity extends AppCompatActivity implements RecipesViewVal
 
         DaggerRecipesComponent.builder().mainComponent(Dependencies.instance.mainComponent).build().inject(this);
 
-        recipesAdapter = new RecipesAdapter(recipesInteractor, nameCategory);
+        recipesAdapter = new RecipesAdapter(nameCategory);
         recyclerView.setLayoutManager(new GridLayoutManager(this, getSpanCount()));
         recyclerView.setAdapter(recipesAdapter);
+
+        recipesInteractor.allRecipesByCategory(nameCategory);
+
+        fabAddRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogNameNewRecipe().show();
+            }
+        });
     }
 
     @Override
@@ -97,6 +107,12 @@ public class RecipesActivity extends AppCompatActivity implements RecipesViewVal
     protected void onStop() {
         recipesViewValidateDecorate.recipesViewValidate = null;
         super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        recipesInteractor.allRecipesByCategory(nameCategory);
     }
 
     @Override
@@ -141,19 +157,37 @@ public class RecipesActivity extends AppCompatActivity implements RecipesViewVal
         }
     }
 
+    private MaterialDialog dialogNameNewRecipe() {
+        return new MaterialDialog.Builder(this)
+                .title(R.string.add_new_recipe)
+                .content(R.string.question_title_recipe)
+                .inputRangeRes(2, 15, R.color.colorAccent)
+                .inputType(InputType.TYPE_CLASS_TEXT)
+                .input(getString(R.string.name_recipe_category), null, new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                        recipesInteractor.addRecipe(input.toString(), nameCategory);
+                    }
+                })
+                .build();
+    }
+
     @Override
     public void onEmpty() {
-        recyclerView.setVisibility(View.GONE);
-        imageViewNoRecipe.setVisibility(View.VISIBLE);
-        textViewNoRecipe.setVisibility(View.VISIBLE);
+        viewFlipperRecipes.setDisplayedChild(1);
     }
 
     @Override
     public void onSuccess(List<RecipeModelView> recipeModelViewList) {
-        recyclerView.setVisibility(View.VISIBLE);
-        imageViewNoRecipe.setVisibility(View.GONE);
-        textViewNoRecipe.setVisibility(View.GONE);
+        viewFlipperRecipes.setDisplayedChild(0);
         recipesAdapter.setRecipeModelViewList(recipeModelViewList);
         recyclerView.setAdapter(recipesAdapter);
+    }
+
+    @Override
+    public void addIsOkay() {
+        Intent intent = new Intent(RecipesActivity.this, RecipeActivity.class);
+        intent.putExtra(NAMECATEGORY, nameCategory);
+        startActivity(intent);
     }
 }

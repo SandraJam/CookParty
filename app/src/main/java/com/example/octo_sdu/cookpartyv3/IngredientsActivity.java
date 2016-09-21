@@ -23,15 +23,12 @@ import android.widget.ViewFlipper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.octo_sdu.cookpartyv3.back.Dependencies;
-import com.example.octo_sdu.cookpartyv3.back.ExecutorInstance;
 import com.example.octo_sdu.cookpartyv3.ingredients.dagger.DaggerIngredientsComponent;
-import com.example.octo_sdu.core.coreIngredients.IngredientsInteractor;
-import com.example.octo_sdu.cookpartyv3.ingredients.decorate.IngredientsInteractorDecorate;
-import com.example.octo_sdu.core.coreIngredients.model.Ingredient;
-import com.example.octo_sdu.cookpartyv3.ingredients.presenter.IngredientsPresenterImpl;
-import com.example.octo_sdu.cookpartyv3.ingredients.presenter.IngredientsViewValidate;
 import com.example.octo_sdu.cookpartyv3.ingredients.decorate.IngredientsViewValidateDecorate;
+import com.example.octo_sdu.cookpartyv3.ingredients.presenter.IngredientsViewValidate;
 import com.example.octo_sdu.cookpartyv3.ingredients.view.IngredientsAdapter;
+import com.example.octo_sdu.core.coreIngredients.IngredientsInteractor;
+import com.example.octo_sdu.core.coreIngredients.model.Ingredient;
 
 import java.util.List;
 
@@ -39,7 +36,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import realm.IngredientsRepositoryRealmImpl;
 
 public class IngredientsActivity extends AppCompatActivity implements IngredientsViewValidate{
 

@@ -12,7 +12,6 @@ import javax.inject.Singleton;
 public interface MainComponent {
     void make(FirstTime firstTime);
 
-    ExecutorInstance executorInstance();
     MeasuresRepository measuresRepository();
     CategoryIngredientRepository categoryIngredientRepository();
     CategoryRecipeRepository categoryRecipeRepository();

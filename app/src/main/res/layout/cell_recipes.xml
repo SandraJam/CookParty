@@ -4,7 +4,8 @@
     android:layout_height="100dp"
     android:layout_margin="4dp"
     app:cardCornerRadius="2dp"
-    app:cardElevation="2dp">
+    app:cardElevation="2dp"
+    android:id="@+id/card_recipes">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,18 +19,6 @@
             android:textSize="30sp"
             android:gravity="center_vertical"
             android:textStyle="bold"/>
-
-        <ImageButton
-            android:id="@+id/imageButton_recipe"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@drawable/ic_menu"
-            android:background="@null"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_gravity="center_vertical"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:contentDescription="@string/image_button" />
 
     </RelativeLayout>
 

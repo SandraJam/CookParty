@@ -37,4 +37,9 @@ public class RecipesPresenterImpl implements RecipesPresenter {
     public void onEmpty() {
         recipesViewValidate.onEmpty();
     }
+
+    @Override
+    public void addIsOkay() {
+        recipesViewValidate.addIsOkay();
+    }
 }

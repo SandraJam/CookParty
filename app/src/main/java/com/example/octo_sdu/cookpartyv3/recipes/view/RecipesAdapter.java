@@ -5,24 +5,21 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.example.octo_sdu.cookpartyv3.R;
-import com.example.octo_sdu.core.coreRecipes.RecipesInteractor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecipesAdapter extends RecyclerView.Adapter<RecipesViewHolder> {
     List<RecipeModelView> recipeModelViewList = new ArrayList<>();
-    RecipesInteractor recipesInteractor;
     String nameCategory;
 
-    public RecipesAdapter(RecipesInteractor recipesInteractor, String nameCategory) {
-        this.recipesInteractor = recipesInteractor;
+    public RecipesAdapter(String nameCategory) {
         this.nameCategory = nameCategory;
     }
 
     @Override
     public RecipesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new RecipesViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_recipes, parent, false), recipesInteractor, nameCategory);
+        return new RecipesViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_recipes, parent, false), nameCategory);
     }
 
     @Override

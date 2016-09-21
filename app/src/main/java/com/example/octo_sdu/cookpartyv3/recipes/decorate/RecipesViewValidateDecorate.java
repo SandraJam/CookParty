@@ -30,4 +30,14 @@ public class RecipesViewValidateDecorate implements RecipesViewValidate {
             }
         });
     }
+
+    @Override
+    public void addIsOkay() {
+        mainExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipesViewValidate.addIsOkay();
+            }
+        });
+    }
 }

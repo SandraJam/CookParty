@@ -8,4 +8,6 @@ public interface RecipesPresenter {
     void onSuccess(List<Recipe> recipes);
 
     void onEmpty();
+
+    void addIsOkay();
 }

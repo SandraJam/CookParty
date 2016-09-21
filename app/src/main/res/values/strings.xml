@@ -93,5 +93,9 @@
     <string name="delete_recipe_category">Delete Recipe Category</string>
     <string name="picture_category_recipe">Picture Category Recipe</string>
     <string name="image_button">Image Button</string>
+    <string name="title_activity_recipe">RecipeActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="add_new_recipe">Add new Recipe</string>
+    <string name="question_title_recipe">What\'s your recipe title?</string>
 
 </resources>

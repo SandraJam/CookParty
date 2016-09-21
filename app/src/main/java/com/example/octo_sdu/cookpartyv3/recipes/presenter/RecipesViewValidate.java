@@ -9,4 +9,6 @@ public interface RecipesViewValidate {
     void onEmpty();
 
     void onSuccess(List<RecipeModelView> recipeModelViewList);
+
+    void addIsOkay();
 }

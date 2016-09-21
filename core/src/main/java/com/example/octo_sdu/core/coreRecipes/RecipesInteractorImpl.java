@@ -21,7 +21,9 @@ public class RecipesInteractorImpl implements RecipesInteractor {
 
     @Override
     public void deleteRecipe(String name, String nameCategory) {
-
+        if (name != null && nameCategory != null) {
+            recipesRepository.deleteRecipe(name, nameCategory);
+        }
     }
 
     @Override
@@ -35,6 +37,29 @@ public class RecipesInteractorImpl implements RecipesInteractor {
             } else {
                 recipesPresenter.onSuccess(recipes);
             }
+        }
+    }
+
+    @Override
+    public void addRecipe(String title, String nameCategory) {
+        if (title != null && title.length() <= 50 && title.length() > 2 && recipesRepository.findRecipe(title, nameCategory) == null) {
+            recipesRepository.add(title, nameCategory);
+            recipesPresenter.addIsOkay();
+        }
+    }
+
+    @Override
+    public void addIngredientsToRecipe(String nameIngredient, String nameRecipe, String value, String measure) {
+        if (nameIngredient != null && nameRecipe != null && measure != null) {
+            float val = Float.parseFloat(value);
+            recipesRepository.addIngredientsToRecipe(nameIngredient, nameRecipe, val, measure);
+        }
+    }
+
+    @Override
+    public void addStepToRecipe(String content, String nameRecipe) {
+        if (content != null && nameRecipe != null) {
+            recipesRepository.addStepToRecipe(content, nameRecipe);
         }
     }
 }

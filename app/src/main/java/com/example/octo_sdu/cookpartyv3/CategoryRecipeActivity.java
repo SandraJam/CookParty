@@ -12,17 +12,14 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.octo_sdu.cookpartyv3.back.Dependencies;
-import com.example.octo_sdu.cookpartyv3.back.ExecutorInstance;
 import com.example.octo_sdu.cookpartyv3.back.ManagePicture;
 import com.example.octo_sdu.cookpartyv3.categoryRecipe.dagger.DaggerCategoryRecipeComponent;
-import com.example.octo_sdu.core.coreCategoryRecipe.CategoryRecipeInteractor;
-import com.example.octo_sdu.cookpartyv3.categoryRecipe.decorate.CategoryRecipeInteractorDecorate;
-import com.example.octo_sdu.core.coreCategoryRecipe.model.CategoryRecipe;
-import com.example.octo_sdu.cookpartyv3.categoryRecipe.presenter.CategoryRecipePresenterImpl;
-import com.example.octo_sdu.cookpartyv3.categoryRecipe.presenter.CategoryRecipeViewValidate;
 import com.example.octo_sdu.cookpartyv3.categoryRecipe.decorate.CategoryRecipeViewValidateDecorate;
+import com.example.octo_sdu.cookpartyv3.categoryRecipe.presenter.CategoryRecipeViewValidate;
 import com.example.octo_sdu.cookpartyv3.categoryRecipe.view.CategoryRecipeImageAdapter;
 import com.example.octo_sdu.cookpartyv3.categoryRecipe.view.CategoryRecipeViewAdapter;
+import com.example.octo_sdu.core.coreCategoryRecipe.CategoryRecipeInteractor;
+import com.example.octo_sdu.core.coreCategoryRecipe.model.CategoryRecipe;
 
 import java.util.List;
 
@@ -30,7 +27,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import realm.CategoryRecipeRepositoryRealmImpl;
 
 public class CategoryRecipeActivity extends AppCompatActivity implements CategoryRecipeViewValidate{
     private static final int SPAN_COUNT_PORTRAIT = 1;
